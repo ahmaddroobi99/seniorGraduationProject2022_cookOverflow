@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="css/order_or.css">
 </head>
 
 <body>
@@ -43,7 +42,7 @@ button {
     overflow: hidden;
     position: relative;
     width: 900px;
-    height: 550px;
+    height: 700px;
     margin: 0 auto 100px;
     background: #fff;
     box-shadow: -10px -10px 15px rgba(255, 255, 255, 0.3), 10px 10px 15px rgba(70, 70, 70, 0.15), inset -10px -10px 15px rgba(255, 255, 255, 0.3), inset 10px 10px 15px rgba(70, 70, 70, 0.15);
@@ -52,7 +51,7 @@ button {
 .form {
     position: relative;
     width: 640px;
-    height: 100%;
+    height: 90%;
     -webkit-transition: -webkit-transform 1.2s ease-in-out;
     transition: -webkit-transform 1.2s ease-in-out;
     transition: transform 1.2s ease-in-out;
@@ -311,23 +310,34 @@ input {
 
 
 </style>
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong> {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+    </div>
+    {% endfor %}
 
 <p class="tip">Click on button in image container</p>
 
 <div class="cont">
-    <form method="post" action="order_OR_Sale.php">
+    <form method="post" action="signin">
+         {% csrf_token %}
+         {% load static %}
+
     <div class="form sign-in">
         <h2>Welcome HI Hi,</h2>
         <label>
-            <span>product name</span>
-            <input  name ="product_name"type="text" />
+            <span>Username</span>
+            <input  name ="username"type="text" />
         </label>
         <label>
-            <span>phone number</span>
-            <input type="text" name="phone"/>
+            <span>password</span>
+            <input type="text" name="password"/>
         </label>
         <p class="forgot-pass">contact us</p>
-        <button type="submit" class="submit"  name="bye_btn">request_to_buy</button>
+        <button type="submit" class="submit"  name="bye_btn">Login</button>
         <button type="button" class="fb-btn">Connect with <span>facebook</span></button>
     </div>
     </form >
@@ -337,35 +347,47 @@ input {
         <div class="img">
             <div class="img__text m--up">
                 <h2>New here?</h2>
-                <p>Add your product to get the Admin notice and post it for you</p>
+                <p>register with Us to see the Professionality in our Platform</p>
             </div>
             <div class="img__text m--in">
                 <h2>One of us?</h2>
-                <p> request to bye any product you liked from our menu website</p>
+                <p> What You are waiting for push the credintals and ispiring </p>
             </div>
             <div class="img__btn">
-                <span class="m--up">Sale a Pro</span>
-                <span class="m--in">Bye a product</span>
+                <span class="m--up"> Join Us </span>
+                <span class="m--in">Login</span>
             </div>
         </div>
-        <form method ="post" action="order_OR_Sale.php">
+        <form method ="post" action="signup">
+             {% csrf_token %}
+            {% load static %}
         <div class="form sign-up">
             <h2>Time to feel like home,</h2>
             <label>
-                <span>name of the product </span>
-                <input type="text" name="prod_name"/>
+                <span>username </span>
+
+                <input type="text" name="username"/>
             </label>
             <label>
-                <span>Descrpition </span>
-                <textarea type="text" style="width=400px; height: 150px;" name="description" ></textarea>
+                <span>Bio </span>
+                <textarea type="text" style="width=400px; height: 150px;" name="Bio" ></textarea>
             </label>
             <label>
-                <span>price of product</span>
-                <input type="text" name="price"/>
+                <span>password</span>
+                <input type="text" name="password"/>
+            </label>
+
+             <label>
+                <span> confirm password</span>
+                <input type="text" name="confirm_password"/>
             </label>
             <label>
                 <span>phone</span>
                 <input type="text" name="phone" />
+            </label>
+             <label>
+                <span>email</span>
+                <input type="text" name="email" />
             </label>
             <button type="submit" class="submit" name="sale_btn">Sale this pro</button>
             <button type="button" class="fb-btn">Join with <span>facebook</span></button>
