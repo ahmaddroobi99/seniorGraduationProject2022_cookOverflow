@@ -1,12 +1,18 @@
 import email
-
+from django.utils.encoding import force_str
 from django.contrib.auth import authenticate, login, logout
-from django.core.mail import send_mail
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail, EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 # Create your views here.
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
+from authentication.token import generate_token
 from cookOverflow import settings
 
 
@@ -61,24 +67,24 @@ def signup (request) :
         to_list = [myuser.email]
         send_mail(subject, message, from_email, to_list, fail_silently=True)
         #
-        # # Email Address Confirmation Email
-        # current_site = get_current_site(request)
-        # email_subject = "Confirm your Email @ GFG - Django Login!!"
-        # message2 = render_to_string('email_confirmation.html', {
-        #
-        #     'name': myuser.first_name,
-        #     'domain': current_site.domain,
-        #     'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
-        #     'token': generate_token.make_token(myuser)
-        # })
-        # email = EmailMessage(
-        #     email_subject,
-        #     message2,
-        #     settings.EMAIL_HOST_USER,
-        #     [myuser.email],
-        # )
-        # email.fail_silently = True
-        # email.send()
+        # Email Address Confirmation Email
+        current_site = get_current_site(request)
+        email_subject = "Confirm your Email @ CookOverFlow Login!!"
+        message2 = render_to_string('email_confirmation.html', {
+
+            'name': myuser.phone,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
+            'token': generate_token.make_token(myuser)
+        })
+        email = EmailMessage(
+            email_subject,
+            message2,
+            settings.EMAIL_HOST_USER,
+            [myuser.email],
+        )
+        email.fail_silently = True
+        email.send()
 
         return redirect('signup')
 
@@ -90,9 +96,9 @@ def signup (request) :
 
 
 
-def activate(request, uidb64, token):
+def activate(request, uidb64, token,*args, **kwargs):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         myuser = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         myuser = None
@@ -103,11 +109,11 @@ def activate(request, uidb64, token):
         myuser.save()
         login(request, myuser)
         messages.success(request, "Your Account has been activated!!")
-        return redirect('signin')
+        return redirect('signup')
     else:
         return render(request, 'activation_failed.html')
 
-def signin (request) :
+def signin (request, *args, **kwargs) :
     # return render(request,"authentication/signin.html")
     if request.method == 'POST' :
         username = request.POST['username']
@@ -127,7 +133,7 @@ def signin (request) :
 
 
 
-def signout (request) :
+def signout (request,*args, **kwargs) :
     # return render(request,"authentication/signout.html")
 
     logout (request)
