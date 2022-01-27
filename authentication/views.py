@@ -18,7 +18,7 @@ from cookOverflow import settings
 
 def home(request):
     # return HttpResponse("hello I am Working ")
-    return render(request, "authentication/index.html")
+    return render(request, "authentication/signout.html")
 
 def signup (request) :
     # return render(request,"authentication/signup.html")
