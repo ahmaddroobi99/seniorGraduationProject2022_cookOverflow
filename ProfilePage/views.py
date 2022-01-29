@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
 # Create your views here.
 
-def profile(request):
+def index(request):
     return render(request, "index.html")
+
+def profile(request):
+    return render(request, "profile_page.html")
