@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: Merienda;
+    src: url(../Fonts/Merienda/Merienda.otf) format('opentype'),
+    url(../Fonts/Merienda/Merienda-Regular.ttf) format('truetype');
+}
+body{
+    margin: 0;
+    left: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: #fffbf0;
+    font-family: Merienda;
+}
+.header_container{
+    display: flex;
+    position: absolute;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: #943d24;
+    color: #fffbf0;
+    white-space: nowrap;
+}
+.logo_container, .profile_conainer, .routs, .Notifications{
+    margin: 0 4rem 0 4rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.rout_a:hover, .icons:hover{
+    background-color: #fffbf0;
+    color: #943d24;
+    padding:10px 10px;
+    border-radius: 50%;
+}
+.logo{
+    display: block;
+    position: relative;
+    width: 5rem;
+    border-radius: 90%;
+}
+/* .routs{
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    margin: 0 5rem 0 5rem;
+} */
+.rout_a{
+    text-decoration: none;
+    color: #fffbf0;
+    padding:10px 10px;
+}
+.rout{
+    display: block;
+    position: relative;
+    margin-right: 2rem;
+    font-size: 1.2rem;
+    color: black;
+    text-decoration: none;
+}
+/* .Notifications{
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin: 0 5rem 0 5rem;
+} */
+.icons{
+    margin-right: 2rem;
+    cursor: pointer;
+    padding:10px 10px;
+}
+.profile_image{
+    display: block;
+    position: relative;
+    width: 3rem;
+    border-radius: 100%;
+}
