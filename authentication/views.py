@@ -15,7 +15,6 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from authentication.token import generate_token
 from cookOverflow import settings
 
-
 def home(request):
     # return HttpResponse("hello I am Working ")
     return render(request, "authentication/signout.html")
@@ -29,7 +28,6 @@ def signup (request) :
         confirm_password =request.POST['confirm_password']
         phone = request.POST['phone']
         email = request.POST['email']
-
 
         if User.objects.filter(username=username):
             messages.error(request, "Username already exist! Please try some other username.")
