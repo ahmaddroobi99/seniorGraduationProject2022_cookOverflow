@@ -6,6 +6,8 @@ import django
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.forms import EmailField
+from datetime import date
+from django.db.models.functions import ExtractYear
 
 # Create your models here.
 
@@ -47,7 +49,7 @@ class Cooker(AbstractBaseUser, PermissionsMixin):
     background_photo = models.ImageField(upload_to=('../static/ProfileImgs'))
     bio = models.TextField(null=True)
     phoneNumber = models.IntegerField(null=True)
-    country = models.CharField(max_length=50)
+    Nationality = models.CharField(max_length=50)
     job = models.CharField(max_length=50)
     rating = models.FloatField(null=False, default=0)
     followers = models.ManyToManyField('self', through='Follower', symmetrical=False, related_name='related_to')
@@ -66,6 +68,10 @@ class Cooker(AbstractBaseUser, PermissionsMixin):
     # Retrieve / Fetch - GET
     # Update / Edit - PUT
     # Delete / Remove - DELETE
+
+    def calculateAge(self):
+        age = date.today().year - ExtractYear(self.dob)
+        return age
 
     def follow(self, user, status):
         follower, created = Follower.objects.get_or_create(
