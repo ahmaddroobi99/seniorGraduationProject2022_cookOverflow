@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: Merienda;
+    src: url(../Fonts/Merienda/Merienda.otf) format('opentype'),
+    url(../Fonts/Merienda/Merienda-Regular.ttf) format('truetype');
+}
+body{
+    margin: 0;
+    left: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: #fffbf0;
+    font-family: Merienda;
+}
+
+.background_photo{
+    display: block;
+    position: absolute;
+    top: 78px;
+    background-image: url("../ProfileImages/background_image.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 300px;
+    width: 100%;
+}
