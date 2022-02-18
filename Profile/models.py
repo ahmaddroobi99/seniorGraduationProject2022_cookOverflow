@@ -1,9 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
-from django.db import models
-
 from Accounts.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver

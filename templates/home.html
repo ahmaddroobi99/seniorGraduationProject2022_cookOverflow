@@ -18,35 +18,29 @@
                                             <img src="{{ request.user.profile.profile_image.url }}" alt="">
                                         </figure>
                                         <div class="newpst-input">
-                                            <form method="post" action="{% url 'newsfeed:post-create' %}">
+                                            <form method="post" action="{% url 'Timeline:post-create' %}" enctype="multipart/form-data">
                                                 {% csrf_token %}
                                                 <textarea rows="2" name="body" placeholder="Write something"></textarea>
                                                 <div class="attachments">
                                                     <ul>
                                                         <li>
-                                                            <i class="fa fa-music"></i>
-                                                            <label class="fileContainer">
-                                                                <input type="file">
-                                                            </label>
-                                                        </li>
-                                                        <li>
                                                             <i class="fa fa-image"></i>
                                                             <label class="fileContainer">
-                                                                <input type="file">
+                                                                <input type="file", name="image">
                                                             </label>
                                                         </li>
                                                         <li>
                                                             <i class="fa fa-video-camera"></i>
                                                             <label class="fileContainer">
-                                                                <input type="file">
+                                                                <input type="file", name="video">
                                                             </label>
                                                         </li>
-                                                        <li>
+                                                        {% comment %} <li>
                                                             <i class="fa fa-camera"></i>
                                                             <label class="fileContainer">
                                                                 <input type="file">
                                                             </label>
-                                                        </li>
+                                                        </li> {% endcomment %}
                                                         <li>
                                                             <button type="submit">Post</button>
                                                         </li>
@@ -74,6 +68,16 @@
                                                     </div>
                                                     <div class="post-meta">
                                                         <img src="images/resources/user-post.jpg" alt="">
+                                                        <div class="description">
+                                                            <p>{{ post.body }}</p>
+                                                            {% if post.image %}
+                                                                <img src="{{ post.image.url }}"/>
+                                                            {% endif %}
+
+                                                            {% if post.video %}
+                                                                <video src="{{ post.video.url }}" controls>
+                                                            {% endif %}
+                                                        </div>
                                                         <div class="we-video-info">
                                                             <ul>
                                                                 <li>
@@ -129,9 +133,6 @@
                                                                 </li>
                                                             </ul>
                                                         </div>
-                                                        <div class="description">
-                                                            <p>{{ post.body }}</p>
-                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="coment-area">
@@ -160,7 +161,7 @@
                                                                 <img src="{{ request.user.profile.profile_image.url }}" alt="">
                                                             </div>
                                                             <div class="post-comt-box">
-                                                                <form method="post" id="comment-form" action="{% url 'newsfeed:comment-create' post.id %}">
+                                                                <form method="post" id="comment-form" action="{% url 'Timeline:comment-create' post.id %}">
                                                                     {% csrf_token %}
                                                                     <input placeholder="Post your comment" name="content">
                                                                 </form>

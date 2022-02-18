@@ -13,7 +13,7 @@ from .forms import *
 class RegisterView(CreateView):
     model = User
     form_class = UserRegistrationForm
-    template_name = 'accounts/register.html'
+    template_name = 'Accounts/register.html'
     success_url = '/'
 
     extra_context = {
@@ -31,7 +31,7 @@ class RegisterView(CreateView):
     def post(self, request, *args, **kwargs):
         if User.objects.filter(email=request.POST['email']).exists():
             messages.warning(request, 'This email is already taken')
-            return redirect('accounts:register')
+            return redirect('Accounts:register')
 
         user_form = UserRegistrationForm(data=request.POST)
 
@@ -40,16 +40,16 @@ class RegisterView(CreateView):
             password = user_form.cleaned_data.get("password1")
             user.set_password(password)
             user.save()
-            return redirect('accounts:login')
+            return redirect('Accounts:login')
         else:
             print(user_form.errors)
-            return render(request, 'accounts/register.html', {'form': user_form})
+            return render(request, 'Accounts/register.html', {'form': user_form})
 
 
 class LoginView(FormView):
     success_url = '/'
     form_class = UserLoginForm
-    template_name = 'accounts/login.html'
+    template_name = 'Accounts/login.html'
 
     extra_context = {
         'title': 'Login'
