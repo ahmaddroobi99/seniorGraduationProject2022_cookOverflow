@@ -21,7 +21,10 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('Accounts.urls')),
+    path('', include('notifications.urls')),
     path('', include('core.urls')),
-    path('', include('Profile.urls')),
     path('', include('Timeline.urls')),
+    path('', include('Friends.urls')),
+    path('timeline/', include('Profile.urls')),
+    path('messages/', include('communications.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -38,16 +38,6 @@ class PostCreateView(CreateView):
         else:
             return self.form_invalid(form)
 
-# def detail_view(request, id):
-#     post = Post.objects.all()
-#     photoes = PostImage.objects.filter(post=post)
-#     videos = postVideo.objects.filter(post=post)
-#     return render(request, 'home.html', {
-#         'post':post,
-#         'photoes':photoes,
-#         'videos':videos
-#     })
-
 def create_comment(request, post_id=None):
     if request.method == "POST":
         post = Post.objects.get(id=post_id)
