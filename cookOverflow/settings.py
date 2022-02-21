@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
     'Timeline',
     'core',
     'Friends',
+    'notifications',
+    'communications',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +80,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'cookOverflow.wsgi.application'
+ASGI_APPLICATION = "cookOverflow.routing.application"
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -86,7 +99,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'cookoverflow',
         'USER': 'postgres',
-        'PASSWORD': '',
+        'PASSWORD': '922000',
         'HOST': 'localhost',
         'PORT': '5432',
     }
