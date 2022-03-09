@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView
 
-from Accounts.models import User
+from Account.models import User
 from Profile.models import Profile
 
 

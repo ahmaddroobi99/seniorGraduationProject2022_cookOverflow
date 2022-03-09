@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
 
-from Accounts.models import User
+from Account.models import User
 from Friends.models import Friend
 
 

@@ -8,7 +8,7 @@ from Timeline.models import Post
 
 def home(request):
     if not request.user.is_authenticated:
-        return redirect(reverse_lazy('Accounts:login'))
+        return redirect(reverse_lazy('Account:Register'))
 
     friends_one = Friend.objects.filter(friend=request.user).filter(status='friend')
     friends_two = Friend.objects.filter(user=request.user).filter(status='friend')

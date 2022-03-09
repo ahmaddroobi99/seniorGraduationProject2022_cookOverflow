@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
+import sys
 from pathlib import Path
 from .info import *
+from django.contrib.messages import constants as messages
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 EMAIL_USE_TLS =EMAIL_USE_TLS
@@ -30,6 +33,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 
 # Application definition
 
@@ -42,13 +46,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'Accounts',
+    # 'Account',
     'Profile',
     'Timeline',
     'core',
     'Friends',
     'notifications',
     'communications',
+     'Account',
 ]
 
 MIDDLEWARE = [
@@ -99,7 +104,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'cookoverflow',
         'USER': 'postgres',
-        'PASSWORD': '922000',
+        'PASSWORD': '404729782Ahmad',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -156,10 +161,37 @@ STATICFILES_DIRS = [
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-AUTH_USER_MODEL = 'Accounts.User'
+# AUTH_USER_MODEL = 'Account.User'
+AUTH_USER_MODEL = 'Account.User'
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#Email Setup
+EMAIL_FROM_USER = os.getenv('EMAIL_FROM_USER')
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'Your Email Address Host'
+# EMAIL_PORT = 'Your Email Host Port Number'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'Your Email Address'
+# EMAIL_HOST_PASSWORD = 'Your Email Address Password'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = os.getenv('EMAIL_FROM_USER')
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'cookoverflow1999@gmail.com'
+EMAIL_HOST_PASSWORD = '404729782'
+EMAIL_PORT = 587
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-secondary',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+ }

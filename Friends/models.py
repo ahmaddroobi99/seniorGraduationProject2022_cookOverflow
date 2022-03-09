@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 
-from Accounts.models import User
+from Account.models import User
 from django.utils.timezone import now
 
 

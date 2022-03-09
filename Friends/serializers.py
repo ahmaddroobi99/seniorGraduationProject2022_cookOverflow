@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from Accounts.models import User
+from Account.models import User
 from .models import CustomNotification
 
 
