@@ -8,17 +8,15 @@ from django.utils.timezone import now
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     body = models.TextField()
-    video = models.FileField(upload_to='videos/', blank=True, null=True)
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    image = models.ManyToManyField('PostImage', blank=True)
+    video = models.ManyToManyField('postVideo', blank=True)
     created_at = models.DateTimeField(default=now)
 
-# class PostImage(models.Model):
-#     post = models.ForeignKey(Post, default=None, on_delete=models.CASCADE)
-#     image = models.ImageField()
+class PostImage(models.Model):
+    image = models.ImageField(upload_to="images/", blank=True, null=False)
 
-# class postVideo(models.Model):
-#     post = models.ForeignKey(Post, default=None, on_delete=models.CASCADE)
-#     video = models.FileField(upload_to="videos/", null=True)
+class postVideo(models.Model):
+    video = models.FileField(upload_to="videos/", blank=True, null=False)
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
