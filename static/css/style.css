@@ -1354,6 +1354,30 @@ form button {
     width: 20px;
 }
 
+#imageContainer, #videoContainer{
+    width: 90%;
+    border: 1px solid black;
+    position: relative;
+    margin: auto;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+    flex-wrap: wrap;
+    visibility: hidden;
+}
+
+figuer{
+    width: 45%;
+}
+img{
+    width: 100%;
+}
+figcaption{
+    text-align: center;
+    font-size: 2.4vmin;
+    margin-top: 0.5vmin;
+}
+
 .friend-info {
     display: inline-block;
     position: relative;
