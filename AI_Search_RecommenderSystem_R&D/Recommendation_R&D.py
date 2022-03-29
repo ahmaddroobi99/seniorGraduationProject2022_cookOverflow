@@ -78,9 +78,9 @@ def text_tokenizer_mp(doc):
     return tok_doc
 
 # Parallelzing tokenizing process
-pool = mp.Pool(mp.cpu_count())
-tokenized_text = pool.map(text_tokenizer_mp, [doc for doc in cleaned_text])
-print(tokenized_text)
+# pool = mp.Pool(mp.cpu_count())
+# tokenized_text = pool.map(text_tokenizer_mp, [doc for doc in cleaned_text])
+# print(tokenized_text)
 
 # Creating TF-IDF Matrices and recalling text dependencies
 
