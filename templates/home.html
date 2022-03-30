@@ -20,29 +20,33 @@
                                         <div class="newpst-input">
                                             <form method="post" action="{% url 'Timeline:post-create' %}" enctype="multipart/form-data">
                                                 {% csrf_token %}
-                                                <textarea rows="2" name="body" placeholder="Write something"></textarea>
+                                                <textarea rows="4" name="body" placeholder="Write something"></textarea>
                                                 <div class="attachments">
                                                     <ul>
                                                         <li>
                                                             <i class="fa fa-image"></i>
                                                             <label class="fileContainer">
-                                                                <input type="file", name="image">
+                                                                <input type="file" name="image" id="image_input" accept="image/*" onchange="previewImage()" multiple>
                                                             </label>
                                                         </li>
                                                         <li>
                                                             <i class="fa fa-video-camera"></i>
                                                             <label class="fileContainer">
-                                                                <input type="file", name="video">
+                                                                <input type="file", name="video" id="video_input" accept="video/*" onchange="previewVideo()" multiple>
                                                             </label>
                                                         </li>
-                                                        {% comment %} <li>
-                                                            <i class="fa fa-camera"></i>
-                                                            <label class="fileContainer">
-                                                                <input type="file">
-                                                            </label>
-                                                        </li> {% endcomment %}
                                                         <li>
                                                             <button type="submit">Post</button>
+                                                        </li>
+                                                        <li>
+                                                            <div id="imageContainer">
+
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div id="videoContainer">
+
+                                                            </div>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -70,12 +74,20 @@
                                                         <img src="images/resources/user-post.jpg" alt="">
                                                         <div class="description">
                                                             <p>{{ post.body }}</p>
-                                                            {% if post.image %}
-                                                                <img src="{{ post.image.url }}"/>
+                                                            {% if post.image.count > 0 %}
+                                                            <div class="col-md-4 col-xs-12">
+                                                                {% for image in post.image.all %}
+                                                                        <img src="{{ image.image.url }}" class="post-image" />
+                                                                {% endfor %}
+                                                            </div>
                                                             {% endif %}
 
-                                                            {% if post.video %}
-                                                                <video src="{{ post.video.url }}" controls>
+                                                            
+                                                            {% if post.video.count > 0 %}
+                                                            <div class="col-md-4 col-xs-12">
+                                                                {% for video in post.video.all %}
+                                                                        <video src="{{ video.video.url }}" controls class="post-image"  preload="metadata"></video>
+                                                                {% endfor %}
                                                             {% endif %}
                                                         </div>
                                                         <div class="we-video-info">

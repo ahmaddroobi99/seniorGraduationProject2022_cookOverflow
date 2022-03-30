@@ -2,7 +2,7 @@ import json
 
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 
@@ -13,30 +13,43 @@ from .models import *
 
 
 class PostCreateView(CreateView):
-    model = Post
-    http_method_names = ['post']
-    form_class = PostCreateForm
-    template_name = 'home.html'
-    success_url = reverse_lazy('core:home')
+    def get(self, request, *args, **kwargs):
+        post = Post.objects.all().order_by('-created_at')
 
-    def form_valid(self, form):
-        if self.request.user.is_authenticated:
-            form.instance.user = self.request.user
-            print(form.cleaned_data)
-        return super(PostCreateView, self).form_valid(form)
+        context = {
+            'post' : post,
+        }
+        return render(request, reverse_lazy('core:home'), context)
 
-    def form_invalid(self, form):
-        """If the form is invalid, render the invalid form."""
-        print(form.errors)
-        return redirect(reverse_lazy('core:home'))
+    def post(self, request, *args, **kwargs):
+        post = Post.objects.all().order_by('-created_at')
+        form = PostCreateForm(request.POST)
+        image_files = request.FILES.getlist('image')
+        video_files = request.FILES.getlist('video')
 
-    def post(self, *args, **kwargs):
-        form = self.get_form()
-        self.object = None
         if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+            new_post = form.save(commit=False)
+            new_post.user = request.user
+            new_post.save()
+
+            for image in image_files:
+                img = PostImage(image=image)
+                img.save()
+                new_post.image.add(img)
+
+            new_post.save()
+            
+            for video in video_files:
+                vid = postVideo(video=video)
+                vid.save()
+                new_post.video.add(vid)
+
+            new_post.save()
+        print(form.cleaned_data)
+        context = {
+            'post' : post,
+        }
+        return redirect(reverse_lazy('core:home'), context)
 
 def create_comment(request, post_id=None):
     if request.method == "POST":
