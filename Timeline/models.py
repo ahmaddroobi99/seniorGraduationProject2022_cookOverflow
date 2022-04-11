@@ -1,5 +1,4 @@
 from distutils.command.upload import upload
-from typing import OrderedDict
 from django.db import models
 
 from Account.models import User
@@ -12,8 +11,6 @@ class Post(models.Model):
     image = models.ManyToManyField('PostImage', blank=True)
     video = models.ManyToManyField('postVideo', blank=True)
     created_at = models.DateTimeField(default=now)
-    class Meta:
-        ordering = ("-created_at",)
 
 class PostImage(models.Model):
     image = models.ImageField(upload_to="images/", blank=True, null=False)
