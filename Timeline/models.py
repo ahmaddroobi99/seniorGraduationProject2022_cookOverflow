@@ -11,6 +11,8 @@ class Post(models.Model):
     image = models.ManyToManyField('PostImage', blank=True)
     video = models.ManyToManyField('postVideo', blank=True)
     created_at = models.DateTimeField(default=now)
+    likes = models.IntegerField(default=0)
+
 
 class PostImage(models.Model):
     image = models.ImageField(upload_to="images/", blank=True, null=False)

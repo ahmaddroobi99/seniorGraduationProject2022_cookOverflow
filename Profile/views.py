@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, UpdateView
-
+from django.contrib.auth.forms import UserCreationForm ,UserChangeForm
 from Account.models import User
 from Profile.models import Profile
 
@@ -27,6 +27,7 @@ class TimelineView(DetailView):
 
 
 class ProfileEditView(UpdateView):
+    # form_class =UserChangeForm
     model = Profile
     template_name = "profile/edit-my-profile.html"
     context_object_name = "profile"

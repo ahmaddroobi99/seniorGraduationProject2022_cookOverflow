@@ -14,6 +14,7 @@ class Profile(models.Model):
     country = models.CharField(max_length=20, blank=True)
 
 
+
 @receiver(post_save, sender=User)
 def create_profile(sender, **kwargs):
     if kwargs.get('created', False):
