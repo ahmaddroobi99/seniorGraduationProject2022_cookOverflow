@@ -1,7 +1,6 @@
 
 from django.db import models
 from Account.models import User
-from Timeline.models import Post
 # Create your models here.
 
 class Notification(models.Model):

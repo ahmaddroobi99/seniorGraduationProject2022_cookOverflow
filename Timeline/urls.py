@@ -6,4 +6,11 @@ app_name = "Timeline"
 urlpatterns = [
     path('post/create', PostCreateView.as_view(), name="post-create"),
     path('comment/create/<int:post_id>', create_comment, name="comment-create"),
+   	# path('', index, name='index'),
+   	# path('newpost/', NewPost, name='newpost'),
+   	# path('<uuid:post_id>', PostDetails, name='postdetails'),
+   	# path('<uuid:post_id>/like', like, name='postlike'),
+   	# path('<uuid:post_id>/favorite', favorite, name='postfavorite'),
+   	# path('tag/<slug:tag_slug>', tags, name='tags'),
 ]
+
