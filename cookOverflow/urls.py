@@ -22,13 +22,16 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Account.urls')),
 
-    path('', include('notifications.urls')),
     path('', include('core.urls')),
     path('', include('Timeline.urls')),
     path('', include('Friends.urls')),
     path('timeline/', include('Profile.urls')),
+    path('profile/',include('Profile.urls')),
     path('messages/', include('communications.urls')),
-    # path('resetpassword/', include('Account.urls')),
+    path('notification/', include('notifications.urls')),
+    # path('<username>/follow/<option>', follow, name='follow'),
+
+                  # path('resetpassword/', include('Account.urls')),
     path('', include('django.contrib.auth.urls'))
 
                   # path('', include('Account.urls')),
