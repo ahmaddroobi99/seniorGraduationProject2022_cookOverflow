@@ -18,7 +18,7 @@
                                             <img src="{{ request.user.profile.profile_image.url }}" alt="">
                                         </figure>
                                         <div class="newpst-input">
-                                            <form method="post" action="{% url 'Timeline:post-create' %}" enctype="multipart/form-data">
+                                            <form id="create_post" method="post" action="{% url 'Timeline:post-create' %}" enctype="multipart/form-data">
                                                 {% csrf_token %}
                                                 <textarea rows="4" name="body" placeholder="Write something"></textarea>
                                                 <div class="attachments">
@@ -36,7 +36,7 @@
                                                             </label>
                                                         </li>
                                                         <li>
-                                                            <button type="submit">Post</button>
+                                                            <button type="submit" onclick="submitFiles()">Post</button>
                                                         </li>
                                                         <li>
                                                             <div id="imageContainer">

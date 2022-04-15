@@ -1,12 +1,14 @@
+from dataclasses import field
 import json
+from pyexpat import model
 
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from Friends.models import CustomNotification
+from Friends.models import CustomNotification, Friend   
 from Friends.serializers import NotificationSerializer
 from .forms import PostCreateForm
 from .models import *
@@ -14,7 +16,7 @@ from .models import *
 
 class PostCreateView(CreateView):
     def get(self, request, *args, **kwargs):
-        post = Post.objects.all().order_by('-created_at')
+        post = Post.objects.all()
 
         context = {
             'post' : post,
@@ -22,7 +24,7 @@ class PostCreateView(CreateView):
         return render(request, reverse_lazy('core:home'), context)
 
     def post(self, request, *args, **kwargs):
-        post = Post.objects.all().order_by('-created_at')
+        post = Post.objects.all()
         form = PostCreateForm(request.POST)
         image_files = request.FILES.getlist('image')
         video_files = request.FILES.getlist('video')
@@ -50,6 +52,42 @@ class PostCreateView(CreateView):
             'post' : post,
         }
         return redirect(reverse_lazy('core:home'), context)
+
+def update_post(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    form = PostCreateForm(instance=post)
+    if request.method == "POST":
+        form = PostCreateForm(request.POST, instance=post)
+        image_files = request.FILES.get("images")
+        print(image_files)
+        video_files = request.FILES.getlist('video')
+        if form.is_valid():
+            print("get into if statement")
+            form.save(commit=False)
+            post.user = request.user
+
+            for image in image_files:
+                img = PostImage(image=image)
+                img.save()
+                post.image.add(img)
+            
+            for video in video_files:
+                vid = postVideo(video=video)
+                vid.save()
+                post.video.add(vid)
+
+        print(form.cleaned_data)
+        return redirect(reverse_lazy('core:home'), {"post": post})
+    else:
+        form = PostCreateForm(instance=post)
+    
+    context = {
+        "pk":post.id,
+        "content":post.body,
+        "imageFiles":post.image.all(),
+    }
+    print(post.image.all())
+    return render(request, "post_edit.html", context)
 
 def create_comment(request, post_id=None):
     if request.method == "POST":
