@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load humanize %}
 
 {% block content %}
 
@@ -99,15 +100,17 @@
                                                                     </span>
                                                                 </li>
                                                                 <li>
-                                                                    <span class="like" data-toggle="tooltip" title="like">
+                                                                    <span href="{%url 'Timeline:postlike' post.id %}" class="link" data-toggle="tooltip" title="like">
                                                                         <i class="ti-heart"></i>
-                                                                        <ins>2.2k</ins>
+                                                                        <ins>{{post.likes}}</ins>
                                                                     </span>
                                                                 </li>
-                                                                <li>
-                                                                    <span class="dislike" data-toggle="tooltip" title="dislike">
-                                                                        <i class="ti-heart-broken"></i>
+
+                                                                  <li>
+                                                                    <span class="save Post" data-toggle="tooltip" title="save post">
+                                                                        <i class="material-icons">save_alt</i>
                                                                         <ins>200</ins>
+
                                                                     </span>
                                                                 </li>
                                                                 <li class="social-media">

@@ -1,5 +1,7 @@
 import json
-from unittest.test import loader
+import uuid
+
+from django.template import loader
 
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
@@ -111,7 +113,7 @@ def like(request, post_id):
 	post.likes = current_likes
 	post.save()
 
-	return HttpResponseRedirect(reverse('postdetails', args=[post_id]))
+	return HttpResponseRedirect(reverse('core:home', args=[post_id]))
 
 @login_required
 def favorite(request, post_id):
@@ -125,6 +127,6 @@ def favorite(request, post_id):
 	else:
 		profile.favorites.add(post)
 
-	return HttpResponseRedirect(reverse('postdetails', args=[post_id]))
+	return HttpResponseRedirect(reverse('core:home', args=[post_id]))
 
 
