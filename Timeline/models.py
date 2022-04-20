@@ -1,9 +1,10 @@
 from distutils.command.upload import upload
+from typing import OrderedDict
 from django.db import models
 
 from Account.models import User
 from django.utils.timezone import now
-from notifications.models import Notification
+# from notifications.models import Notification
 # newly added features
 from django.db.models.signals import post_save, post_delete
 from django.utils.text import slugify
@@ -42,6 +43,10 @@ class Post(models.Model):
     image = models.ManyToManyField('PostImage', blank=True)
     video = models.ManyToManyField('postVideo', blank=True)
     created_at = models.DateTimeField(default=now)
+
+    class Meta:
+        ordering = ("-created_at",)
+
     likes = models.IntegerField(default=0)
     tags = models.ManyToManyField(Tag, related_name='tags')
 
