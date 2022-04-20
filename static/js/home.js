@@ -105,12 +105,6 @@ function submitFiles() {
         data: {
             "images": ImageList
         },
-        error: function() {
-            alert("no");
-        },
-        success: function() {
-            alert("OK");
-        }
     });
 }
 

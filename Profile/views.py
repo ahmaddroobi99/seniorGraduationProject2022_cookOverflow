@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from django.shortcuts import render, redirect
@@ -7,6 +8,7 @@ from django.views.generic import DetailView, UpdateView
 from django.contrib.auth.forms import UserCreationForm ,UserChangeForm
 from Account.models import User
 from Profile.models import Profile
+from Timeline.models import Post
 
 
 class TimelineView(DetailView):
@@ -15,15 +17,21 @@ class TimelineView(DetailView):
     slug_field = "username"
     slug_url_kwarg = "username"
     context_object_name = "user"
-    object = None
 
-    def get_object(self, queryset=None):
-        return self.model.objects.select_related('profile').prefetch_related("posts").get(username=self.kwargs.get(self.slug_url_kwarg))
+    # def get(self, request, *args, **kwargs):
+    #     post = Post.objects.all()
+
+    #     context = {
+    #         'post' : post,
+    #     }
+    #     return render(request, reverse_lazy('core:home'), context)
 
     def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        context = self.get_context_data(object=self.object)
-        return self.render_to_response(context)
+        posts = Post.objects.all()
+        context = {
+            posts: "posts"
+        }
+        return render(request, "profile/user-profile.html",context)
 
 
 class ProfileEditView(UpdateView):
@@ -54,3 +62,39 @@ class ProfileEditView(UpdateView):
         profile.phone = request.POST.get('phone')
         profile.save()
         return redirect(reverse_lazy('profile:edit-profile'))
+
+
+@login_required
+def like(request, post_id):
+	user = request.user
+	post = Post.objects.get(id=post_id)
+	current_likes = post.likes
+	liked = Likes.objects.filter(user=user, post=post).count()
+
+	if not liked:
+		like = Likes.objects.create(user=user, post=post)
+		#like.save()
+		current_likes = current_likes + 1
+
+	else:
+		Likes.objects.filter(user=user, post=post).delete()
+		current_likes = current_likes - 1
+
+	post.likes = current_likes
+	post.save()
+
+	return HttpResponseRedirect(reverse('core:home', args=[post_id]))
+
+@login_required
+def favorite(request, post_id):
+	user = request.user
+	post = Post.objects.get(id=post_id)
+	profile = Profile.objects.get(user=user)
+
+	if profile.favorites.filter(id=post_id).exists():
+		profile.favorites.remove(post)
+
+	else:
+		profile.favorites.add(post)
+
+	return HttpResponseRedirect(reverse('core:home', args=[post_id]))

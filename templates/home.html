@@ -100,11 +100,12 @@
                                                                     </span>
                                                                 </li>
                                                                 <li>
-                                                                    <span href="{%url 'Timeline:postlike' post.id %}" class="link" data-toggle="tooltip" title="like">
+                                                                    <a href="{%url 'Timeline:postlike' post.pk %}" value="post_id" class="link" data-toggle="tooltip" title="like">
                                                                         <i class="ti-heart"></i>
                                                                         <ins>{{post.likes}}</ins>
-                                                                    </span>
+                                                                    </a>
                                                                 </li>
+
 
                                                                   <li>
                                                                     <span class="save Post" data-toggle="tooltip" title="save post">

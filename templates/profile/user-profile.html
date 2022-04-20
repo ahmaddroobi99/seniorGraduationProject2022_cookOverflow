@@ -62,62 +62,41 @@
                             {% include 'includes/sidebar.html' %}
                             <div class="col-lg-6">
                                 <div class="loadMore">
-{#                                    <div class="central-meta item">#}
-{#                                        <div class="new-postbox">#}
-{#                                            <figure>#}
-{#                                                <img src="{% static user.profile.profile_image.url %}" alt="">#}
-{#                                            </figure>#}
-{#                                            <div class="newpst-input">#}
-{#                                                <form method="post">#}
-{#                                                    <textarea rows="2" placeholder="write something"></textarea>#}
-{#                                                    <div class="attachments">#}
-{#                                                        <ul>#}
-{#                                                            <li>#}
-{#                                                                <i class="fa fa-music"></i>#}
-{#                                                                <label class="fileContainer">#}
-{#                                                                    <input type="file">#}
-{#                                                                </label>#}
-{#                                                            </li>#}
-{#                                                            <li>#}
-{#                                                                <i class="fa fa-image"></i>#}
-{#                                                                <label class="fileContainer">#}
-{#                                                                    <input type="file">#}
-{#                                                                </label>#}
-{#                                                            </li>#}
-{#                                                            <li>#}
-{#                                                                <i class="fa fa-video-camera"></i>#}
-{#                                                                <label class="fileContainer">#}
-{#                                                                    <input type="file">#}
-{#                                                                </label>#}
-{#                                                            </li>#}
-{#                                                            <li>#}
-{#                                                                <i class="fa fa-camera"></i>#}
-{#                                                                <label class="fileContainer">#}
-{#                                                                    <input type="file">#}
-{#                                                                </label>#}
-{#                                                            </li>#}
-{#                                                            <li>#}
-{#                                                                <button type="submit">Publish</button>#}
-{#                                                            </li>#}
-{#                                                        </ul>#}
-{#                                                    </div>#}
-{#                                                </form>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
-                                    {% for post in user.posts.all %}
+                                    {% for post in posts %}
                                         <div class="central-meta item">
                                             <div class="user-post">
                                                 <div class="friend-info">
                                                     <figure>
-                                                        <img src="{% static user.profile.profile_image.url %}" alt="">
+                                                        {% if post.user.profile.profile_image.url %}
+                                                            <img src="{{ post.user.profile.profile_image.url }}" alt="">
+                                                        {% else %}
+                                                            <img src="{% static 'images/default.jpg' %}" alt="">
+                                                        {% endif %}
                                                     </figure>
                                                     <div class="friend-name">
-                                                        <ins><a href="#" title="">{{ user.username }}</a></ins>
-                                                        <span>published: {{ post.created_at }}</span>
+                                                        <ins><a href="{% url 'profile:user-timeline' post.user.username %}" title="">{{ post.user.username }}</a></ins>
+                                                        <span>published: {{ post.created_at|timesince }} ago</span>
                                                     </div>
                                                     <div class="post-meta">
-{#                                                        <img src="images/resources/user-post.jpg" alt="">#}
+                                                        <img src="images/resources/user-post.jpg" alt="">
+                                                        <div class="description">
+                                                            <p>{{ post.body }}</p>
+                                                            {% if post.image.count > 0 %}
+                                                            <div class="col-md-4 col-xs-12">
+                                                                {% for image in post.image.all %}
+                                                                        <img src="{{ image.image.url }}" class="post-image" />
+                                                                {% endfor %}
+                                                            </div>
+                                                            {% endif %}
+
+                                                            
+                                                            {% if post.video.count > 0 %}
+                                                            <div class="col-md-4 col-xs-12">
+                                                                {% for video in post.video.all %}
+                                                                        <video src="{{ video.video.url }}" controls class="post-image"  preload="metadata"></video>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </div>
                                                         <div class="we-video-info">
                                                             <ul>
                                                                 <li>
@@ -127,15 +106,18 @@
                                                                     </span>
                                                                 </li>
                                                                 <li>
-                                                                    <span class="like" data-toggle="tooltip" title="like">
+                                                                    <a href="{%url 'Timeline:postlike' post.pk %}" value="post_id" class="link" data-toggle="tooltip" title="like">
                                                                         <i class="ti-heart"></i>
-                                                                        <ins>2.2k</ins>
-                                                                    </span>
+                                                                        <ins>{{post.likes}}</ins>
+                                                                    </a>
                                                                 </li>
-                                                                <li>
-                                                                    <span class="dislike" data-toggle="tooltip" title="dislike">
-                                                                        <i class="ti-heart-broken"></i>
+
+
+                                                                  <li>
+                                                                    <span class="save Post" data-toggle="tooltip" title="save post">
+                                                                        <i class="material-icons">save_alt</i>
                                                                         <ins>200</ins>
+
                                                                     </span>
                                                                 </li>
                                                                 <li class="social-media">
@@ -173,9 +155,6 @@
                                                                 </li>
                                                             </ul>
                                                         </div>
-                                                        <div class="description">
-                                                            <p style="font-size: 25px; font-weight: bold">{{ post.body }}</p>
-                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="coment-area">
@@ -183,28 +162,30 @@
                                                         {% for comment in post.comments.all %}
                                                             <li>
                                                                 <div class="comet-avatar">
-                                                                    <img src="{% static 'images/comment.jpg' %}" alt="" style="width: 50px; height: 50px">
+                                                                    {% if comment.user.profile.profile_image.url %}
+                                                                        <img src="{{ comment.user.profile.profile_image.url }}" alt="">
+                                                                    {% else %}
+                                                                        <img src="{% static 'images/default.jpg' %}" alt="">
+                                                                    {% endif %}
                                                                 </div>
                                                                 <div class="we-comment">
                                                                     <div class="coment-head">
-                                                                        <h5><a href="time-line.html" title="">{{ comment.user.username }}</a></h5>
+                                                                        <h5><a href="#" title="">{{ comment.user.username }}</a></h5>
                                                                         <span>{{ comment.created_at|timesince }} ago</span>
+                                                                        <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                                                     </div>
                                                                     <p>{{ comment.content }}</p>
                                                                 </div>
                                                             </li>
                                                         {% endfor %}
-                                                        {#                                                        <li>#}
-                                                        {#                                                            <a href="#" title="" class="showmore underline">more comments</a>#}
-                                                        {#                                                        </li>#}
                                                         <li class="post-comment">
                                                             <div class="comet-avatar">
-                                                                <img src="{{ request.user.profile.profile_image.url }}" alt="" style="width: 50px; height: 50px">
+                                                                <img src="{{ request.user.profile.profile_image.url }}" alt="">
                                                             </div>
                                                             <div class="post-comt-box">
-                                                                <form method="post">
-                                                                    <textarea placeholder="Post your comment"></textarea>
-                                                                    <button type="submit"></button>
+                                                                <form method="post" id="comment-form" action="{% url 'Timeline:comment-create' post.id %}">
+                                                                    {% csrf_token %}
+                                                                    <input placeholder="Post your comment" name="content">
                                                                 </form>
                                                             </div>
                                                         </li>
@@ -221,16 +202,18 @@
                                         <h4 class="widget-title">Friends</h4>
                                         <div id="searchDir"></div>
                                         <ul id="people-list" class="friendz-list">
-                                            <li>
-                                                <figure>
-                                                    {#<img src="images/resources/friend-avatar.jpg" alt="">#}
-                                                    <span class="status f-online"></span>
-                                                </figure>
-                                                <div class="friendz-meta">
-                                                    <a href="#">bucky barnes</a>
-                                                    <i><a href="https://wpkixx.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="97e0fef9e3f2e5e4f8fbf3f2e5d7f0faf6fefbb9f4f8fa">[email&#160;protected]</a></i>
-                                                </div>
-                                            </li>
+                                            {#                                            {% for friend in friends %}#}
+                                            {#                                                <li>#}
+                                            {#                                                    <figure>#}
+                                            {#                                                        <img src="images/resources/friend-avatar.jpg" alt="">#}
+                                            {#                                                        <span class="status f-online"></span>#}
+                                            {#                                                    </figure>#}
+                                            {#                                                    <div class="friendz-meta">#}
+                                            {#                                                        <a href="time-line.html">{{ friend.user.username }}</a>#}
+                                            {#                                                        <i><a href="https://wpkixx.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="07706e6973627574686b63627547606a666e6b2964686a">[email&#160;protected]</a></i>#}
+                                            {#                                                    </div>#}
+                                            {#                                                </li>#}
+                                            {#                                            {% endfor %}#}
                                         </ul>
                                         <div class="chat-box">
                                             <div class="chat-head">
