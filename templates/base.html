@@ -54,7 +54,11 @@
                 </li>
             </ul>
             <div class="user-img">
-                <img src="{{ request.user.profile.profile_image.url }}" alt="" style="height: 40px; width: 40px;">
+                {% if request.user.profile.profile_image %}                        
+                    <img src="{{ request.user.profile.profile_image.url }}" alt="" style="height: 40px; width: 40px;">
+                {% else %}
+                    <img src="{% static 'images/male.jpg' %}" alt="">
+                {% endif %}
                 <span class="status f-online"></span>
                 <div class="user-setting">
                     <a href="#" title=""><span class="status f-online"></span>online</a>

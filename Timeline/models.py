@@ -43,12 +43,11 @@ class Post(models.Model):
     image = models.ManyToManyField('PostImage', blank=True)
     video = models.ManyToManyField('postVideo', blank=True)
     created_at = models.DateTimeField(default=now)
+    likes = models.IntegerField(default=0)
+    tags = models.ManyToManyField("Tag", related_name='tags')
 
     class Meta:
         ordering = ("-created_at",)
-
-    likes = models.IntegerField(default=0)
-    tags = models.ManyToManyField(Tag, related_name='tags')
 
 
 class PostImage(models.Model):

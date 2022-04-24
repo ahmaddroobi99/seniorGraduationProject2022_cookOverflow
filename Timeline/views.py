@@ -34,10 +34,20 @@ class PostCreateView(CreateView):
         form = PostCreateForm(request.POST)
         image_files = request.FILES.getlist('image')
         video_files = request.FILES.getlist('video')
+        tags_text = request.POST['tags']
+
+        tags = tags_text.split("#")
 
         if form.is_valid():
             new_post = form.save(commit=False)
             new_post.user = request.user
+            new_post.save()
+            
+            for tag in tags:
+                tagPost = Tag(title = tag)
+                tagPost.save()
+                new_post.tags.add(tagPost)
+
             new_post.save()
 
             for image in image_files:

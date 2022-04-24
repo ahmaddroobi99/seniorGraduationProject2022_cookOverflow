@@ -3,43 +3,16 @@ let videoInput = document.getElementById("video_input");
 let imageContainer = document.getElementById("imageContainer");
 let videoContainer = document.getElementById("videoContainer");
 
-var ImageList = [];
-let VideoList = [];
-let id = 1000;
 
 function previewImage() {
     imageContainer.style.visibility = "visible";
-    ImageList.push.apply(ImageList, imageInput.files);
     imageContainer.innerHTML = "";
 
-    for (i in ImageList) {
+    for (i of imageInput.files) {
         let reader = new FileReader();
         let figuer = document.createElement("figuer");
-        let figCap = document.createElement("figcaption");
+        let figCap = document.createElement("figcaption")
 
-        let del = document.createElement("input");
-        del.setAttribute("type", "button");
-
-        figCap.innerHTML = id;
-
-        figuer.setAttribute("id", id);
-        del.id = id;
-        console.log(del.id);
-        del.name = ImageList[i].name;
-        console.log(del.name);
-        id += 1;
-
-        del.value = "×";
-
-
-        del.onclick = () => {
-            console.log(ImageList);
-            document.getElementById(`${del.id}`).remove();
-            ImageList = ImageList.filter(image => image.name !== del.name);
-            console.log(ImageList);
-        };
-
-        figuer.appendChild(del);
         figuer.appendChild(figCap);
         reader.onload = () => {
             let img = document.createElement("img");
@@ -47,7 +20,7 @@ function previewImage() {
             figuer.insertBefore(img, figCap);
         }
         imageContainer.appendChild(figuer);
-        reader.readAsDataURL(ImageList[i]);
+        reader.readAsDataURL(i);
     }
 };
 
@@ -55,33 +28,13 @@ function previewImage() {
 
 function previewVideo() {
     videoContainer.style.visibility = "visible";
-    VideoList.push.apply(VideoList, videoInput.files);
     videoContainer.innerHTML = "";
-    for (i of VideoList) {
+
+    for (i of videoInput.files) {
         let reader = new FileReader();
         let figuer = document.createElement("figuer");
         let figCap = document.createElement("figcaption");
-        let del = document.createElement("input");
-        del.setAttribute("type", "button");
 
-        figCap.innerHTML = id;
-
-        figuer.setAttribute("id", id);
-        del.name = i.name;
-        del.id = id
-        id += 1;
-        del.value = "×";
-
-
-        del.onclick = () => {
-            console.log(VideoList);
-            document.getElementById(`${del.id}`).remove();
-            VideoList = VideoList.filter(video => video.name !== del.name);
-            console.log(VideoList);
-            videoInput.setAttribute("value", VideoList);
-        };
-
-        figuer.appendChild(del);
         figuer.appendChild(figCap);
         reader.onload = () => {
             let vid = document.createElement("video");
@@ -94,24 +47,4 @@ function previewVideo() {
         videoContainer.appendChild(figuer);
         reader.readAsDataURL(i);
     }
-}
-
-function submitFiles() {
-    // var dataForm = $('#create_post').serialize();
-    // dataForm.append("images", ImageList);
-    // dataForm.append("csrfmiddlewaretoken", "{{ csrf_token }}");
-    $.ajax({
-        type: 'post',
-        data: {
-            "images": ImageList
-        },
-    });
-}
-
-
-function removeItem(id, name) {
-    console.log(ImageList);
-    document.getElementById(`${id}`).remove();
-    ImageList = ImageList.filter(image => image.name !== name);
-    console.log(ImageList);
 }

@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
+import os
+
 # Create your views here.
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -12,26 +14,58 @@ from Timeline.models import Post
 
 
 class TimelineView(DetailView):
-    model = User
-    template_name = "profile/user-profile.html"
-    slug_field = "username"
-    slug_url_kwarg = "username"
-    context_object_name = "user"
 
-    # def get(self, request, *args, **kwargs):
-    #     post = Post.objects.all()
-
-    #     context = {
-    #         'post' : post,
-    #     }
-    #     return render(request, reverse_lazy('core:home'), context)
-
-    def get(self, request, *args, **kwargs):
-        posts = Post.objects.all()
+    def get(self, request, pk, *args, **kwargs):
+        profile = Profile.objects.get(pk=pk)
+        posts = Post.objects.filter(user=profile.user)
         context = {
-            posts: "posts"
+            "profile": profile,
+            "posts": posts
         }
+        print()
+        print()
+        print()
+        print("Inside get")
+        print()
+        print()
+        print()
         return render(request, "profile/user-profile.html",context)
+
+# class UpdateImage(UpdateView):
+#     model=Profile
+#     fields=['profile_image']
+#     template_name='profile/user-profile.html'
+    
+#     def post(self ,request, pk, *args, **kwargs):
+#         profile = Profile.objects.get(pk = pk)
+#         posts = Post.objects.filter(user=profile.user)
+#         context = {
+#             "profile": profile,
+#             "posts": posts
+#         }
+#         print()
+#         print()
+#         print()
+#         print("Inside Post")
+#         print()
+#         print()
+#         print()
+                
+#         if request.method == "POST":
+#             if len(request.FILES)!=0:
+#                 user = Profile.objects.filter(user = request.user)
+#                 # os.remove(profile.profile_image.path)
+#                 profile.profile_image = request.FILES('proImage')
+#                 print()
+#                 print()
+#                 print()
+#                 print(request.FILES('proImage'))
+#                 print()
+#                 print()
+#                 print()
+#                 user.save()
+            
+#         return render(request, "profile/user-profile.html") 
 
 
 class ProfileEditView(UpdateView):
@@ -46,7 +80,6 @@ class ProfileEditView(UpdateView):
         return self.request.user.profile
 
     def post(self, request, *args, **kwargs):
-        print(request.POST.get('first_name'))
         user = request.user
         user.first_name = request.POST.get('first_name')
         user.last_name = request.POST.get('last_name')
@@ -57,9 +90,14 @@ class ProfileEditView(UpdateView):
             user.gender = "female"
         user.save()
         profile = user.profile
+        if  "profile_image" in request.FILES:
+            profile.profile_image =  request.FILES["profile_image"]
+        if "cover_image" in request.FILES:
+            profile.cover_image =  request.FILES["cover_image"]
         profile.country = request.POST.get('country')
         profile.city = request.POST.get('city')
         profile.phone = request.POST.get('phone')
+        profile.about = request.POST.get('about')
         profile.save()
         return redirect(reverse_lazy('profile:edit-profile'))
 
@@ -83,7 +121,7 @@ def like(request, post_id):
 	post.likes = current_likes
 	post.save()
 
-	return HttpResponseRedirect(reverse('core:home', args=[post_id]))
+	return HttpResponseRedirect(reverse('profile:edit-profile', args=[post_id]))
 
 @login_required
 def favorite(request, post_id):
@@ -97,4 +135,5 @@ def favorite(request, post_id):
 	else:
 		profile.favorites.add(post)
 
-	return HttpResponseRedirect(reverse('core:home', args=[post_id]))
+	return HttpResponseRedirect(reverse('profile:edit-profile', args=[post_id]))
+    

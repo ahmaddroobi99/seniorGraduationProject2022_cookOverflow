@@ -1,219 +1,204 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 
-{% block content %}
-
-    <section>
-        <div class="feature-photo">
-            <figure><img src="{{ user.profile.cover_image.url }}" alt="" style="height: 400px;"></figure>
-            <div class="add-btn">
-                <span>1205 followers</span>
-                <a href="#" title="" data-ripple="">Add Friend</a>
-            </div>
-            <form class="edit-phto">
-                <i class="fa fa-camera-retro"></i>
-                <label class="fileContainer">
+<section>
+    <div class="feature-photo">
+        <figure><img src="{{ profile.cover_image.url }}" alt="" style="height: 400px;  "></figure>
+        <div class="add-btn">
+            <span>1205 followers</span>
+            <a href="#" title="" data-ripple="">Add Friend</a>
+        </div>
+        {% comment %}
+        <form class="edit-phto">
+            <i class="fa fa-camera-retro"></i>
+            <label class="fileContainer">
                     Edit Cover Photo
                     <input type="file"/>
                 </label>
-            </form>
-            <div class="container-fluid">
-                <div class="row merged">
-                    <div class="col-lg-2 col-sm-3">
-                        <div class="user-avatar">
-                            <figure>
-                                <img src="{{ user.profile.profile_image.url }}" alt="" style="height: 280px">
-                                <form class="edit-phto">
+        </form> {% endcomment %}
+        <div class="container-fluid">
+            <div class="row merged">
+                <div class="col-lg-2 col-sm-3">
+                    <div class="user-avatar">
+                        <figure>
+                            <img src="{{ profile.profile_image.url }}" alt="{% url 'profile:user-timeline' profile.pk%}" style="height: 280px">
+                            <!-- <form class="edit-phto"  method="post" action="" >
+                                    {% csrf_token %}
                                     <i class="fa fa-camera-retro"></i>
                                     <label class="fileContainer">
                                         Edit Profile Photo
-                                        <input type="file" onclick="return confirm('Do you want to change profile photo?')"/>
+                                        <input type="file" name="proImage" onclick="return confirm('Do you want to change profile photo?')"/>
                                     </label>
-                                </form>
-                            </figure>
-                        </div>
+                                    <input type="submit"/>
+                                </form> -->
+                        </figure>
                     </div>
-                    <div class="col-lg-10 col-sm-9">
-                        <div class="timeline-info">
-                            <ul>
-                                <li class="admin-name">
-                                    <h5>{{ user.first_name  }}   {{user.last_name}}</h5>
-                                </li>
-                                <li>
-                                    <a class="active" href="#" title="" data-ripple="">time line</a>
-                                    <a class="" href="#" title="" data-ripple="">Photos</a>
-                                    <a class="" href="#" title="" data-ripple="">Friends</a>
-                                    <a class="" href="#" title="" data-ripple="">about</a>
-                                </li>
-                            </ul>
-                        </div>
+                </div>
+                <div class="col-lg-10 col-sm-9">
+                    <div class="timeline-info">
+                        <ul>
+                            <li class="admin-name">
+                                <h5>{{ profile.first_name }} {{profile.last_name}}</h5>
+                            </li>
+                            <li>
+                                <a class="active" href="#" title="" data-ripple="">time line</a>
+                                <a class="" href="#" title="" data-ripple="">Photos</a>
+                                <a class="" href="#" title="" data-ripple="">Friends</a>
+                                <a class="" href="#" title="" data-ripple="">about</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </section><!-- top area -->
+    </div>
+</section>
+<!-- top area -->
 
-    <section>
-        <div class="gap gray-bg">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row" id="page-contents">
-                            {% include 'includes/sidebar.html' %}
-                            <div class="col-lg-6">
-                                <div class="loadMore">
-                                    {% for post in posts %}
-                                        <div class="central-meta item">
-                                            <div class="user-post">
-                                                <div class="friend-info">
-                                                    <figure>
-                                                        {% if post.user.profile.profile_image.url %}
-                                                            <img src="{{ post.user.profile.profile_image.url }}" alt="">
-                                                        {% else %}
-                                                            <img src="{% static 'images/default.jpg' %}" alt="">
-                                                        {% endif %}
-                                                    </figure>
-                                                    <div class="friend-name">
-                                                        <ins><a href="{% url 'profile:user-timeline' post.user.username %}" title="">{{ post.user.username }}</a></ins>
-                                                        <span>published: {{ post.created_at|timesince }} ago</span>
+<section>
+    <div class="gap gray-bg">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row" id="page-contents">
+                        {% include 'includes/sidebar.html' %}
+                        <div class="col-lg-6">
+                            <div class="loadMore">
+                                {% for post in posts %}
+                                <div class="central-meta item">
+                                    <div class="user-post">
+                                        <div class="friend-info">
+                                            <figure>
+                                                {% if post.user.profile.profile_image.url %}
+                                                <img src="{{ post.user.profile.profile_image.url }}" alt=""> {% else %}
+                                                <img src="{% static 'images/default.jpg' %}" alt=""> {% endif %}
+                                            </figure>
+                                            <div class="friend-name">
+                                                <ins><a href="{% url 'profile:user-timeline' post.user.pk %}" title="">{{ post.user.username }}</a></ins>
+                                                <span>published: {{ post.created_at|timesince }} ago</span>
+                                            </div>
+                                            <div class="post-meta">
+                                                <img src="images/resources/user-post.jpg" alt="">
+                                                <div class="description">
+                                                    <p>{{ post.body }}</p>
+                                                    {% if post.image.count > 0 %}
+                                                    <div class="col-md-4 col-xs-12">
+                                                        {% for image in post.image.all %}
+                                                        <img src="{{ image.image.url }}" class="post-image" /> {% endfor %}
                                                     </div>
-                                                    <div class="post-meta">
-                                                        <img src="images/resources/user-post.jpg" alt="">
-                                                        <div class="description">
-                                                            <p>{{ post.body }}</p>
-                                                            {% if post.image.count > 0 %}
-                                                            <div class="col-md-4 col-xs-12">
-                                                                {% for image in post.image.all %}
-                                                                        <img src="{{ image.image.url }}" class="post-image" />
-                                                                {% endfor %}
-                                                            </div>
-                                                            {% endif %}
-
-                                                            
-                                                            {% if post.video.count > 0 %}
-                                                            <div class="col-md-4 col-xs-12">
-                                                                {% for video in post.video.all %}
-                                                                        <video src="{{ video.video.url }}" controls class="post-image"  preload="metadata"></video>
-                                                                {% endfor %}
-                                                            {% endif %}
-                                                        </div>
-                                                        <div class="we-video-info">
-                                                            <ul>
-                                                                <li>
-                                                                    <span class="comment" data-toggle="tooltip" title="Comments">
+                                                    {% endif %} {% if post.video.count > 0 %}
+                                                    <div class="col-md-4 col-xs-12">
+                                                        {% for video in post.video.all %}
+                                                        <video src="{{ video.video.url }}" controls class="post-image" preload="metadata"></video> {% endfor %} {% endif %}
+                                                    </div>
+                                                    <div class="we-video-info">
+                                                        <ul>
+                                                            <li>
+                                                                <span class="comment" data-toggle="tooltip" title="Comments">
                                                                         <i class="fa fa-comments-o"></i>
                                                                         <ins>{{ post.comments.count }}</ins>
                                                                     </span>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="{%url 'Timeline:postlike' post.pk %}" value="post_id" class="link" data-toggle="tooltip" title="like">
-                                                                        <i class="ti-heart"></i>
-                                                                        <ins>{{post.likes}}</ins>
-                                                                    </a>
-                                                                </li>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{%url 'Timeline:postlike' post.pk %}" value="post_id" class="link" data-toggle="tooltip" title="like">
+                                                                    <i class="ti-heart"></i>
+                                                                    <ins>{{post.likes}}</ins>
+                                                                </a>
+                                                            </li>
 
 
-                                                                  <li>
-                                                                    <span class="save Post" data-toggle="tooltip" title="save post">
+                                                            <li>
+                                                                <span class="save Post" data-toggle="tooltip" title="save post">
                                                                         <i class="material-icons">save_alt</i>
                                                                         <ins>200</ins>
 
                                                                     </span>
-                                                                </li>
-                                                                <li class="social-media">
-                                                                    <div class="menu">
-                                                                        <div class="btn trigger"><i class="fa fa-share-alt"></i></div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-html5"></i></a></div>
+                                                            </li>
+                                                            <li class="social-media">
+                                                                <div class="menu">
+                                                                    <div class="btn trigger"><i class="fa fa-share-alt"></i></div>
+                                                                    <div class="rotater">
+                                                                        <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-html5"></i></a></div>
+                                                                    </div>
+                                                                    <div class="rotater">
+                                                                        <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-facebook"></i></a></div>
+                                                                    </div>
+                                                                    <div class="rotater">
+                                                                        <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-google-plus"></i></a></div>
+                                                                    </div>
+                                                                    <div class="rotater">
+                                                                        <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-twitter"></i></a></div>
+                                                                    </div>
+                                                                    <div class="rotater">
+                                                                        <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-css3"></i></a></div>
+                                                                    </div>
+                                                                    <div class="rotater">
+                                                                        <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-instagram"></i></a>
                                                                         </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-facebook"></i></a></div>
+                                                                    </div>
+                                                                    <div class="rotater">
+                                                                        <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-dribbble"></i></a>
                                                                         </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-google-plus"></i></a></div>
+                                                                    </div>
+                                                                    <div class="rotater">
+                                                                        <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-pinterest"></i></a>
                                                                         </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-twitter"></i></a></div>
-                                                                        </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-css3"></i></a></div>
-                                                                        </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-instagram"></i></a>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-dribbble"></i></a>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="rotater">
-                                                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-pinterest"></i></a>
-                                                                            </div>
-                                                                        </div>
+                                                                    </div>
 
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="coment-area">
-                                                    <ul class="we-comet">
-                                                        {% for comment in post.comments.all %}
-                                                            <li>
-                                                                <div class="comet-avatar">
-                                                                    {% if comment.user.profile.profile_image.url %}
-                                                                        <img src="{{ comment.user.profile.profile_image.url }}" alt="">
-                                                                    {% else %}
-                                                                        <img src="{% static 'images/default.jpg' %}" alt="">
-                                                                    {% endif %}
-                                                                </div>
-                                                                <div class="we-comment">
-                                                                    <div class="coment-head">
-                                                                        <h5><a href="#" title="">{{ comment.user.username }}</a></h5>
-                                                                        <span>{{ comment.created_at|timesince }} ago</span>
-                                                                        <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-                                                                    </div>
-                                                                    <p>{{ comment.content }}</p>
                                                                 </div>
                                                             </li>
-                                                        {% endfor %}
-                                                        <li class="post-comment">
-                                                            <div class="comet-avatar">
-                                                                <img src="{{ request.user.profile.profile_image.url }}" alt="">
-                                                            </div>
-                                                            <div class="post-comt-box">
-                                                                <form method="post" id="comment-form" action="{% url 'Timeline:comment-create' post.id %}">
-                                                                    {% csrf_token %}
-                                                                    <input placeholder="Post your comment" name="content">
-                                                                </form>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="coment-area">
+                                                <ul class="we-comet">
+                                                    {% for comment in post.comments.all %}
+                                                    <li>
+                                                        <div class="comet-avatar">
+                                                            {% if comment.user.profile.profile_image.url %}
+                                                            <img src="{{ comment.user.profile.profile_image.url }}" alt=""> {% else %}
+                                                            <img src="{% static 'images/default.jpg' %}" alt=""> {% endif %}
+                                                        </div>
+                                                        <div class="we-comment">
+                                                            <div class="coment-head">
+                                                                <h5><a href="#" title="">{{ comment.user.username }}</a></h5>
+                                                                <span>{{ comment.created_at|timesince }} ago</span>
+                                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                            </div>
+                                                            <p>{{ comment.content }}</p>
+                                                        </div>
+                                                    </li>
+                                                    {% endfor %}
+                                                    <li class="post-comment">
+                                                        <div class="comet-avatar">
+                                                            <img src="{{ request.user.profile.profile_image.url }}" alt="">
+                                                        </div>
+                                                        <div class="post-comt-box">
+                                                            <form method="post" id="comment-form" action="{% url 'Timeline:comment-create' post.id %}">
+                                                                {% csrf_token %}
+                                                                <input placeholder="Post your comment" name="content">
+                                                            </form>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
+                                    </div>
                                     {% endfor %}
                                 </div>
-                            </div><!-- centerl meta -->
+                            </div>
+                            <!-- centerl meta -->
                             <div class="col-lg-3">
                                 <aside class="sidebar static">
                                     <div class="widget friend-list stick-widget">
                                         <h4 class="widget-title">Friends</h4>
                                         <div id="searchDir"></div>
                                         <ul id="people-list" class="friendz-list">
-                                            {#                                            {% for friend in friends %}#}
-                                            {#                                                <li>#}
-                                            {#                                                    <figure>#}
-                                            {#                                                        <img src="images/resources/friend-avatar.jpg" alt="">#}
-                                            {#                                                        <span class="status f-online"></span>#}
-                                            {#                                                    </figure>#}
-                                            {#                                                    <div class="friendz-meta">#}
-                                            {#                                                        <a href="time-line.html">{{ friend.user.username }}</a>#}
-                                            {#                                                        <i><a href="https://wpkixx.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="07706e6973627574686b63627547606a666e6b2964686a">[email&#160;protected]</a></i>#}
-                                            {#                                                    </div>#}
-                                            {#                                                </li>#}
-                                            {#                                            {% endfor %}#}
+                                            {# {% for friend in friends %}#} {#
+                                            <li>#} {#
+                                                <figure>#} {# <img src="images/resources/friend-avatar.jpg" alt="">#} {# <span class="status f-online"></span>#} {# </figure>#} {#
+                                                <div class="friendz-meta">#} {# <a href="time-line.html">{{ friend.user.username }}</a>#} {# <i><a href="https://wpkixx.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="07706e6973627574686b63627547606a666e6b2964686a">[email&#160;protected]</a></i>#}
+                                                    {# </div>#} {# </li>#} {# {% endfor %}#}
                                         </ul>
                                         <div class="chat-box">
                                             <div class="chat-head">
@@ -229,7 +214,7 @@
                                                     <li class="me">
                                                         <div class="chat-thumb"><img src="images/resources/chatlist1.jpg" alt=""></div>
                                                         <div class="notification-event">
-															<span class="chat-message-item">
+                                                            <span class="chat-message-item">
 																Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
 															</span>
                                                             <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
@@ -238,7 +223,7 @@
                                                     <li class="you">
                                                         <div class="chat-thumb"><img src="images/resources/chatlist2.jpg" alt=""></div>
                                                         <div class="notification-event">
-															<span class="chat-message-item">
+                                                            <span class="chat-message-item">
 																Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
 															</span>
                                                             <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
@@ -247,7 +232,7 @@
                                                     <li class="me">
                                                         <div class="chat-thumb"><img src="images/resources/chatlist1.jpg" alt=""></div>
                                                         <div class="notification-event">
-															<span class="chat-message-item">
+                                                            <span class="chat-message-item">
 																Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
 															</span>
                                                             <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
@@ -277,14 +262,16 @@
                                                 </form>
                                             </div>
                                         </div>
-                                    </div><!-- friends list sidebar -->
+                                    </div>
+                                    <!-- friends list sidebar -->
                                 </aside>
-                            </div><!-- sidebar -->
+                            </div>
+                            <!-- sidebar -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+</section>
 
 {% endblock %}
