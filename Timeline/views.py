@@ -69,6 +69,26 @@ class PostCreateView(CreateView):
         }
         return redirect(reverse_lazy('core:home'), context)
 
+def deletePost(request, pk):
+    post = get_object_or_404(Post, id=pk)
+
+    if request.method == "POST":
+        post.delete()
+        posts = Post.objects.all()
+        context = {
+            'post' : posts,
+        }
+        return redirect(reverse_lazy('core:home'), context)
+    else:
+        post = Post.objects.all()
+
+        context = {
+            'post' : post,
+        }
+    print(post.image.all())
+    return render(request, reverse_lazy('core:home'), context)
+
+
 def update_post(request, pk):
     post = get_object_or_404(Post, id=pk)
     form = PostCreateForm(instance=post)
