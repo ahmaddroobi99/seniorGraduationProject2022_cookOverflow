@@ -71,8 +71,10 @@ class PostCreateView(CreateView):
 
 def deletePost(request, pk):
     post = get_object_or_404(Post, id=pk)
+    tag = get_object_or_404(Tag, id=pk)
 
     if request.method == "POST":
+        # post.image.remove()
         post.delete()
         posts = Post.objects.all()
         context = {
@@ -89,41 +91,31 @@ def deletePost(request, pk):
     return render(request, reverse_lazy('core:home'), context)
 
 
-def update_post(request, pk):
+def preview_post(request, pk):
     post = get_object_or_404(Post, id=pk)
-    form = PostCreateForm(instance=post)
-    if request.method == "POST":
-        form = PostCreateForm(request.POST, instance=post)
-        image_files = request.FILES.get("images")
-        print(image_files)
-        video_files = request.FILES.getlist('video')
-        if form.is_valid():
-            print("get into if statement")
-            form.save(commit=False)
-            post.user = request.user
-
-            for image in image_files:
-                img = PostImage(image=image)
-                img.save()
-                post.image.add(img)
-            
-            for video in video_files:
-                vid = postVideo(video=video)
-                vid.save()
-                post.video.add(vid)
-
-        print(form.cleaned_data)
-        return redirect(reverse_lazy('core:home'), {"post": post})
-    else:
-        form = PostCreateForm(instance=post)
     
     context = {
-        "pk":post.id,
-        "content":post.body,
-        "imageFiles":post.image.all(),
+        'post':post,
     }
-    print(post.image.all())
     return render(request, "post_edit.html", context)
+
+def tags_preview(request, title):
+    posts = Post.objects.filter(tags__title = title)
+
+    print()
+    print()
+    print()
+    print(posts)
+    print()
+    print()
+    print()
+
+    context = {
+        "post": posts,
+    }
+
+    return render(request, "tags.html", context)
+
 
 def create_comment(request, post_id=None):
     if request.method == "POST":

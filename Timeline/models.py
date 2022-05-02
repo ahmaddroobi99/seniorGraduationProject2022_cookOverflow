@@ -16,11 +16,11 @@ from django.urls import reverse
 
 class Tag(models.Model):
     title = models.CharField(max_length=75, verbose_name='Tag')
-    slug = models.SlugField(null=False, unique=True)
+    # slug = models.SlugField(null=False, unique=True)
 
-    class Meta:
-        verbose_name = 'Tag'
-        verbose_name_plural = 'Tags'
+    # class Meta:
+    #     verbose_name = 'Tag'
+    #     verbose_name_plural = 'Tags'
 
     def get_absolute_url(self):
         return reverse('tags', args=[self.slug])
@@ -28,10 +28,10 @@ class Tag(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.slug:
+    #         self.slug = slugify(self.title)
+    #     return super().save(*args, **kwargs)
 
 
 
