@@ -74,7 +74,16 @@ def deletePost(request, pk):
     tag = get_object_or_404(Tag, id=pk)
 
     if request.method == "POST":
-        # post.image.remove()
+
+        for tag in post.tags.all():
+            tag.delete()
+
+        for image in post.image.all():
+            image.delete()
+
+        for video in post.video.all():
+            video.delete()
+        
         post.delete()
         posts = Post.objects.all()
         context = {
@@ -99,19 +108,16 @@ def preview_post(request, pk):
     }
     return render(request, "post_edit.html", context)
 
-def tags_preview(request, title):
-    posts = Post.objects.filter(tags__title = title)
+def tags_preview(request, title="`"):
+    tags = Tag.objects.all().values_list('title', flat=True).distinct()[:10]
 
-    print()
-    print()
-    print()
-    print(posts)
-    print()
-    print()
-    print()
-
+    if title != "`":    
+        posts = Post.objects.filter(tags__title = title)
+    else:
+        posts = None
     context = {
-        "post": posts,
+        "posts": posts,
+        "tags": tags,
     }
 
     return render(request, "tags.html", context)

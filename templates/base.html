@@ -21,16 +21,10 @@
         </div>
 
         <div class="top-area">
-            <div class="top-search">
-                <form method="post" class="">
-                    <input type="text" placeholder="Search Friend">
-                    <button data-ripple><i class="ti-search"></i></button>
-                </form>
-            </div>
             <ul class="setting-area">
                 <li><a href="/" title="Home" class="link" data-ripple=""><i class="ti-home"></i></a></li>
-                <li><a href="{% url 'profile:edit-profile' %}" class="link" title="edit Profile" data-ripple="">Edit Profile</a></li>
-                <li><a href="{% url 'notifications:show-notifications' %}" class="link" title="edit Profile" data-ripple="">Notifications</a></li>
+                <li><a href="{% url 'Timeline:tags_preview' %}" class="link" title="Tags" data-ripple="">Tags</a></li>
+                <li><a href="{% url 'notifications:show-notifications' %}" class="link" title="Notifications" data-ripple="">Notifications</a></li>
 
                 <li><a href="{% url 'communications:all-messages' %}" class="link">Messenger</a></li>
                 <li>

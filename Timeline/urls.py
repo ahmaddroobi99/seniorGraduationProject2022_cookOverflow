@@ -9,6 +9,7 @@ urlpatterns = [
     path('post/create', PostCreateView.as_view(), name="post-create"),
 	path('post/<int:pk>', deletePost, name="post-delete"),
     path('<int:pk>', preview_post, name="post-preview"),
+	path('tags', tags_preview, name="tags_preview"),
 	path('<str:title>', tags_preview, name="tags_preview"),
     path('comment/create/<int:post_id>', create_comment, name="comment-create"),
    	# path('', index, name='index'),
