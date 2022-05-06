@@ -14,7 +14,7 @@ class Profile(models.Model):
     gender = models.CharField(max_length=20, blank=False, default="male")
     country = models.CharField(max_length=20, blank=True)
     about = models.TextField(blank=True)
-    followers =models.ManyToManyField
+    followers = models.ManyToManyField(User, blank=True, related_name='followers')
 
 
 

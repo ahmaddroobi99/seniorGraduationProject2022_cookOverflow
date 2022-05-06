@@ -163,7 +163,7 @@ def Dashboard(request):
 
 @login_required
 def follow(request, username, option):
-	following = get_object_or_404(User, username=username)
+	following = get_object_or_404(User, id=username)
 
 	try:
 		f, created = Follow.objects.get_or_create(follower=request.user, following=following)
@@ -179,6 +179,6 @@ def follow(request, username, option):
 			 		stream = Stream(post=post, user=request.user, date=post.posted, following=following)
 			 		stream.save()
 
-		return HttpResponseRedirect(reverse('profile', args=[username]))
+		return HttpResponseRedirect(reverse('profile/user-profile.html', args=[username]))
 	except User.DoesNotExist:
-		return HttpResponseRedirect(reverse('profile', args=[username]))
+		return HttpResponseRedirect(reverse('profile/user-profile.html', args=[username]))

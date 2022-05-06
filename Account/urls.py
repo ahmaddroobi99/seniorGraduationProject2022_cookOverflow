@@ -2,6 +2,9 @@ from django.conf.urls import url
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
+
+from .views import follow
+
 app_name = 'Account'
 
 urlpatterns = [
@@ -9,6 +12,7 @@ urlpatterns = [
     path('Register/',views.Register, name = 'Register'),
     path('Logout/',views.Logout, name = 'Logout'),
     path('activateuser/<uidb64>/<token>',views.ActivateUser, name = 'ActivateUser'),
+    path('profile/<int:username>/follow/<option>', follow, name='follow'),
 
     # path('resetpassword/',auth_views.PasswordResetView.as_view(template_name='Account/ResetPassword.html'), name = 'reset_password'),
     path('resetpassword/',

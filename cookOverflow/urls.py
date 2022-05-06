@@ -18,6 +18,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from Account.views import follow
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Account.urls')),
@@ -28,7 +30,8 @@ urlpatterns = [
     path('profile/',include('Profile.urls')),
     path('messages/', include('communications.urls')),
     path('notification/', include('notifications.urls')),
-    # path('<username>/follow/<option>', follow, name='follow'),
+
+
 
                   # path('resetpassword/', include('Account.urls')),
     path('', include('django.contrib.auth.urls'))
