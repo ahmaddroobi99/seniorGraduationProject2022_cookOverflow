@@ -1,17 +1,22 @@
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+# from . import engines
 
 import os
 
 # Create your views here.
 from django.shortcuts import render, redirect
+from django.template.loader import get_template
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import DetailView, UpdateView
 from django.contrib.auth.forms import UserCreationForm ,UserChangeForm
+from django_serializer.paginator import Paginator
+
 from Account.models import User
 from Profile.models import Profile
 from Timeline.models import Post, Likes
@@ -222,18 +227,41 @@ class RemoveFollower(LoginRequiredMixin, View):
 #         return HttpResponseRedirect(next)
 
 
-class UserSearch (View):
-    def get(self,request,*args,**kwargs):
-        query =self.request.GET.get('query')
-        profile_list =Profile.objects.filter(
+# class UserSearch (View):
+#     def get(self,request,*args,**kwargs):
+#         query =self.request.GET.get('query')
+#         profile_list =Profile.objects.filter(
+#
+#             Q(user__username__icontains =query)
+#
+#         )
+#         context ={
+#             'profile_list':profile_list,
+#         }
+#         return render (request,'search/search.html',context)
 
-            Q(user__username__icontains =query)
+@login_required
+def UserSearch(request):
+    query = request.GET.get("q")
+    context = {}
 
-        )
-        context ={
-            'profile_list':profile_list,
+    if query:
+        users = User.objects.filter(Q(username__icontains=query))
+
+        # Pagination
+        paginator = Paginator(users, 6)
+        page_number = request.GET.get('page')
+        users_paginator = paginator.get_page(page_number)
+
+        context = {
+            'users': users_paginator,
         }
-        return render (request,'social/search.html',context)
+
+    # template = loader.get_template('search/search_user.html')
+    template = get_template("search/search_user.html")
+
+
+    return HttpResponse(template.render(context, request))
 
 class ProfileView(View):
     def get(self, request, pk, *args, **kwargs):

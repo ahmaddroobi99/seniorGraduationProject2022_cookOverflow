@@ -10,5 +10,7 @@ urlpatterns = [
    	path('<uuid:post_id>/favorite', favorite, name='postfavorite'),
     path('profile/<int:pk>/followers/add', AddFollower.as_view(), name='add-follower'),
     path('profile/<int:pk>/followers/remove', RemoveFollower.as_view(), name='remove-follower'),
-    path('search/', UserSearch.as_view(), name='profile-search'),
+    # path('search/', UserSearch.as_view(), name='profile-search'),
+    path('new/', UserSearch, name='usersearch'),
+
 ]
