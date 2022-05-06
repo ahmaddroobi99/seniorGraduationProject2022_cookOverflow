@@ -1,6 +1,13 @@
+from django.contrib.auth.decorators import login_required
+from django.db import transaction
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, get_object_or_404
+
 from django.contrib import messages
 from validate_email import validate_email
+
+from Timeline.models import Stream, Post, Follow
 from .models import User
 from .forms import LoginForm, SignUpForm
 from django.core.mail import EmailMessage
@@ -149,3 +156,29 @@ def ActivateUser(request, uidb64, token):
 
 def Dashboard(request):
     return render(request, 'home.html')
+
+
+
+
+
+@login_required
+def follow(request, username, option):
+	following = get_object_or_404(User, username=username)
+
+	try:
+		f, created = Follow.objects.get_or_create(follower=request.user, following=following)
+
+		if int(option) == 0:
+			f.delete()
+			Stream.objects.filter(following=following, user=request.user).all().delete()
+		else:
+			 posts = Post.objects.all().filter(user=following)[:25]
+
+			 with transaction.atomic():
+			 	for post in posts:
+			 		stream = Stream(post=post, user=request.user, date=post.posted, following=following)
+			 		stream.save()
+
+		return HttpResponseRedirect(reverse('profile', args=[username]))
+	except User.DoesNotExist:
+		return HttpResponseRedirect(reverse('profile', args=[username]))
