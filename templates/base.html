@@ -25,9 +25,10 @@
                 <li><a href="/" title="Home" class="link" data-ripple=""><i class="ti-home"></i></a></li>
                 <li><a href="{% url 'Timeline:tags_preview' %}" class="link" title="Tags" data-ripple="">Tags</a></li>
                 <li><a href="{% url 'notifications:show-notifications' %}" class="link" title="Notifications" data-ripple="">Notifications</a></li>
+                <li><a href="#" class="link">Messenger</a></li>
 
-                <li><a href="{% url 'communications:all-messages' %}" class="link">Messenger</a></li>
-                 <li>
+                {% comment %} <li><a href="{% url 'communications:all-messages' %}" class="link">Messenger</a></li> {% endcomment %}
+                 {% comment %} <li>
                      <form class="d-flex" method="GET" action="{% url 'profile:usersearch' %}">
             <div class="input-group">
                 <span class="input-group-text" id="basic-addon1">@</span>
@@ -36,7 +37,7 @@
                 <button style="border:none ; background-color:transparent; box-shadow : none" type ="submit"><i class="fas fa-search"></i> </button>
             </div>
 
-          </form>  </li>
+          </form>  </li> {% endcomment %}
                 <li>
                     <a href="#" title="Notification" data-ripple="">
                         <i class="ti-user"></i><span id="total-friend-notifications"></span>

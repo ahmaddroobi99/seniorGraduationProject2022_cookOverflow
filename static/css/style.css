@@ -1140,6 +1140,20 @@ header.sticky {
     border: 1px solid transparent;
 }
 
+.add-btn1>form:hover {
+    background: transparent none repeat scroll 0 0;
+    border: 1px solid;
+}
+
+.add-btn1>form {
+    border-radius: 2px;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    padding: 4px 20px;
+    border: 1px solid transparent;
+}
+
 
 /*--- sidebar widgets ---*/
 

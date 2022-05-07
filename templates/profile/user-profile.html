@@ -5,16 +5,6 @@
 
     <div class="feature-photo">
         <figure><img src="{{ profile.cover_image.url }}" alt="" style="height: 400px;  "></figure>
-        <div class="add-btn">
-            <span>1205 followers</span>
-            <a href="#" title="" data-ripple="">Add Friend</a>
-
-
-
-
-        </div>
-
-
         {% comment %}
 
 
@@ -42,6 +32,15 @@
                                     <input type="submit"/>
                                 </form> -->
                         </figure>
+                        <div class="content" style="display:flex; flex-direction:column; margin-left: 10px;">
+                            <h3 style="font-weight: bold;" class="title is-1">{% if profile.user.first_name %}{{ profile.user.first_name }} {{ profile.user.last_name }} {% endif %}</h3>
+                            <h7 class="subtitle is-3">@{{ profile.user.username }}</h7>
+                            <span>{{ number_of_followers }} followers
+                            </span>
+                            <span>
+                                {{ number_of_following }} following
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-10 col-sm-9">
@@ -58,7 +57,26 @@
 
 
                             </li>
+                            <li style="position: absolute; right:0; width: fit-content; height: fit-content;">
+                                    {% comment %} <a href="#" title="" data-ripple="">Add Friend</a> {% endcomment %}
+                                    {% if user == request.user %}
+                                        {% else %}
+                                        {% if is_following %}
+                        
+                                        <form  method="POST" action="{% url 'profile:remove-follower' profile.pk %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-outline-danger"  style='border-radius:10px;' type=submit>UnFollow</button>
+                                        </form>
+                                        {% else %}
+                                        <form method="POST" action="{% url 'profile:add-follower' profile.pk %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-outline-success"  style='border-radius:10px;' type=submit>Follow</button>
+                                        </form>
+                                        {% endif %}
+                                        {% endif %}
+                            </li>
                         </ul>
+                       
                     </div>
 
                 </div>
@@ -66,16 +84,15 @@
         </div>
     </div>
 </section>
-<!-- top area -->
-<div class="content">
-      <h1 style="font-weight: bold;" class="title is-1">{% if profile.first_name %}{{ profile.first_name }} {{ profile.last_name }} {% endif %}</h1>
-      <h2 class="subtitle is-3">@{{ profile.user }}</h2>
+
+{% comment %} <!-- top area -->
+ 
     {#    {% set testing = '1' %}  #}
 
 
-</div>
+</div> {% endcomment %}
 
-            <div class="mb-3">
+            {% comment %} <div class="mb-3">
                 <p>Followers: {{ number_of_followers }}</p>
                 {% if user == request.user %}
                 {% else %}
@@ -92,7 +109,7 @@
                 </form>
                 {% endif %}
                 {% endif %}
-            </div>
+            </div> {% endcomment %}
 
 <section>
     <div class="gap gray-bg">
@@ -102,11 +119,15 @@
                     <div class="row" id="page-contents">
                         {% include 'includes/sidebar.html' %}
                         <div class="col-lg-6">
-                            <div class="loadMore">
+                            <div class="loadMore" >
                                 {% for post in posts %}
                                 <div class="central-meta item">
                                     <div class="user-post">
                                         <div class="friend-info">
+                                            <form method="post" action="{% url 'Timeline:post-delete' post.pk %}" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <button style="position:absolute; right:0;"><h5>×</h5></button>
+                                            </form>
                                             <figure>
                                                 {% if post.user.profile.profile_image.url %}
                                                 <img src="{{ post.user.profile.profile_image.url }}" alt=""> {% else %}
@@ -119,17 +140,23 @@
                                             <div class="post-meta">
                                                 <img src="images/resources/user-post.jpg" alt="">
                                                 <div class="description">
-                                                    <p>{{ post.body }}</p>
-                                                    {% if post.image.count > 0 %}
-                                                    <div class="col-md-4 col-xs-12">
-                                                        {% for image in post.image.all %}
-                                                        <img src="{{ image.image.url }}" class="post-image" /> {% endfor %}
-                                                    </div>
-                                                    {% endif %} {% if post.video.count > 0 %}
-                                                    <div class="col-md-4 col-xs-12">
-                                                        {% for video in post.video.all %}
-                                                        <video src="{{ video.video.url }}" controls class="post-image" preload="metadata"></video> {% endfor %} {% endif %}
-                                                    </div>
+                                                    {%for tag in post.tags.all%}
+                                                    <a style="cursor: pointer;" href="{% url 'Timeline:tags_preview' title=tag %}"><label style="padding: 5px; cursor: pointer; background-color: blue; border-radius: 5px;  color: white;">#{{ tag }}</label></a> {% endfor%}
+                                                    <pre>{{ post.body }}</pre> {% if post.image.count > 0 %}
+                                                    <div style="display:flex; flex-flow: column;  align-items: center;">
+                                                            <img src="{{ post.image.all.0.image.url }}" class="post-image" style="max-width: 600px; margin-bottom: 5px; min-width: 400px;"/>
+                                                        {% endif %} {% if post.video.count > 0 %}
+                                                            <video src="{{ post.video.all.0.video.url }}" style="max-width: 600px; min-width: 400px;" controls class="post-image" preload="metadata"></video>
+                                                    {% endif %} {% if post.image.count > 1 or post.video.count > 1 %}
+                                                    <form method="get" action="{% url 'Timeline:post-preview' post.pk %}" enctype="multipart/form-data">
+                                                        <a style="text-decoration: none;" href="{% url 'Timeline:post-preview' pk=post.id %}">
+                                                            <h3 style="margin-top: 10px; text-decoration: none; background-color: blue; color:white; width: fit-content; padding:5px; border-radius: 10px; ">
+                                                                Show More
+                                                            </h3>
+                                                        </a>
+                                                    </form>
+                                                    {% endif %}
+                                                </div>
                                                     <div class="we-video-info">
                                                         <ul>
                                                             <li>
@@ -228,7 +255,7 @@
                                 </div>
                             </div>
                             <!-- centerl meta -->
-                            <div class="col-lg-3">
+                            {% comment %} <div class="col-lg-3">
                                 <aside class="sidebar static">
                                     <div class="widget friend-list stick-widget">
                                         <h4 class="widget-title">Friends</h4>
@@ -305,7 +332,7 @@
                                     </div>
                                     <!-- friends list sidebar -->
                                 </aside>
-                            </div>
+                            </div> {% endcomment %}
                             <!-- sidebar -->
                         </div>
                     </div>

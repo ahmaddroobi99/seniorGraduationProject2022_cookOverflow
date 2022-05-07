@@ -72,7 +72,7 @@ def Login(request):
 
         login(request, user)
 
-        return redirect(reverse('Account:Dashboard'))
+        return redirect(reverse('core:home'))
 
     return render(request, 'Account/Login.html', {'form':form})
 

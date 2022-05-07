@@ -55,11 +55,7 @@
                                                             {#<span class="status f-online"></span>#}
                                                         </figure>
                                                         <div class="people-name">
-                                                            {% if friend.user.username == request.user.username %}
-                                                                <a href="{% url 'communications:messages-with-one-friend' friend.friend.username %}">{{ friend.friend.username }}</a>
-                                                            {% else %}
-                                                                <a href="{% url 'communications:messages-with-one-friend' friend.user.username %}">{{ friend.user.username }}</a>
-                                                            {% endif %}
+                                                            
                                                         </div>
                                                     </li>
                                                 {% endfor %}

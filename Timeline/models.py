@@ -38,16 +38,16 @@ class Tag(models.Model):
 
 
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
-    body = models.TextField()
-    image = models.ManyToManyField('PostImage', blank=True)
-    video = models.ManyToManyField('postVideo', blank=True)
-    created_at = models.DateTimeField(default=now)
-    likes = models.IntegerField(default=0)
-    tags = models.ManyToManyField("Tag", related_name='tags')
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+	body = models.TextField()
+	image = models.ManyToManyField('PostImage', blank=True)
+	video = models.ManyToManyField('postVideo', blank=True)
+	created_at = models.DateTimeField(default=now)
+	likes = models.IntegerField(default=0)
+	tags = models.ManyToManyField("Tag", related_name='tags')
 
-    class Meta:
-        ordering = ("-created_at",)
+	class Meta:
+		ordering = ("-created_at",)
 
 
 class PostImage(models.Model):
@@ -57,10 +57,25 @@ class postVideo(models.Model):
     video = models.FileField(upload_to="videos/", blank=True, null=False)
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.TextField()
-    created_at = models.DateTimeField(default=now)
+	post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	content = models.TextField()
+	created_at = models.DateTimeField(default=now)
+	
+	def user_comment_post(sender, instance, *args, **kwargs):
+		comment = instance
+		post = comment.post
+		sender = comment.user
+		notify = Notification(post=post, sender=sender, user=post.user, notification_type=2)
+		notify.save()
+
+	def user_delete_comment_post(sender, instance, *args, **kwargs):
+		comment = instance
+		post = comment.post
+		sender = comment.user
+
+		notify = Notification.objects.filter(post=post, sender=sender, notification_type=2)
+		notify.delete()
 
 #adding models for follow and likes
 
@@ -126,6 +141,10 @@ post_save.connect(Stream.add_post, sender=Post)
 #Likes
 post_save.connect(Likes.user_liked_post, sender=Likes)
 post_delete.connect(Likes.user_unlike_post, sender=Likes)
+
+# #Comment
+post_save.connect(Comment.user_comment_post, sender=Comment)
+post_delete.connect(Comment.user_delete_comment_post, sender=Comment)
 
 #Follow
 post_save.connect(Follow.user_follow, sender=Follow)

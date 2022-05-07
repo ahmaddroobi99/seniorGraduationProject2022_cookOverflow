@@ -38,11 +38,11 @@ TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
+    # 'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-     'django.contrib.humanize',
+    'django.contrib.humanize',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -50,9 +50,9 @@ INSTALLED_APPS = [
     'Profile',
     'Timeline',
     'core',
-    'Friends',
+    # 'Friends',
     'notifications',
-    'communications',
+    # 'communications',
     'Account',
 ]
 
@@ -85,16 +85,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'cookOverflow.wsgi.application'
-ASGI_APPLICATION = "cookOverflow.routing.application"
+# ASGI_APPLICATION = "cookOverflow.asgi.application"
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
+# CHANNEL_LAYERS = {
+#      "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -104,7 +101,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'cookoverflow',
         'USER': 'postgres',
-        'PASSWORD': '404729782Ahmad',
+        'PASSWORD': '922000',
         'HOST': 'localhost',
         'PORT': '5432',
     }

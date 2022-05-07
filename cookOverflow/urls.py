@@ -26,9 +26,9 @@ urlpatterns = [
 
     path('', include('core.urls')),
     path('', include('Timeline.urls')),
-    path('', include('Friends.urls')),
+    # path('', include('Friends.urls')),
     path('profile/',include('Profile.urls')),
-    path('messages/', include('communications.urls')),
+    # path('messages/', include('communications.urls')),
     path('notification/', include('notifications.urls')),
 
 

@@ -15,7 +15,7 @@ from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import DetailView, UpdateView
 from django.contrib.auth.forms import UserCreationForm ,UserChangeForm
-from django_serializer.paginator import Paginator
+# from django_serializer.paginator import Paginator
 
 from Account.models import User
 from Profile.models import Profile
@@ -164,81 +164,18 @@ class RemoveFollower(LoginRequiredMixin, View):
 
         return redirect('profile:user-timeline', pk=profile.pk)
 
-#
-# class AddLike(LoginRequiredMixin, View):
-#     def post(self, request, pk, *args, **kwargs):
-#         post = Post.objects.get(pk=pk)
-#
-#         is_dislike = False
-#
-#         for dislike in post.dislikes.all():
-#             if dislike == request.user:
-#                 is_dislike = True
-#                 break
-#
-#         if is_dislike:
-#             post.dislikes.remove(request.user)
-#
-#         is_like = False
-#
-#         for like in post.likes.all():
-#             if like == request.user:
-#                 is_like = True
-#                 break
-#
-#         if not is_like:
-#             post.likes.add(request.user)
-#
-#         if is_like:
-#             post.likes.remove(request.user)
-#
-#         next =request.POST.get('next','/')
-#         return HttpResponseRedirect(next)
-#
-#
-# class AddDislike(LoginRequiredMixin, View):
-#     def post(self, request, pk, *args, **kwargs):
-#         post = Post.objects.get(pk=pk)
-#
-#         is_like = False
-#
-#         for like in post.likes.all():
-#             if like == request.user:
-#                 is_like = True
-#                 break
-#
-#         if is_like:
-#             post.likes.remove(request.user)
-#
-#         is_dislike = False
-#
-#         for dislike in post.dislikes.all():
-#             if dislike == request.user:
-#                 is_dislike = True
-#                 break
-#
-#         if not is_dislike:
-#             post.dislikes.add(request.user)
-#
-#         if is_dislike:
-#             post.dislikes.remove(request.user)
-#
-#         next = request.POST.get('next', '/')
-#         return HttpResponseRedirect(next)
+class UserSearch (View):
+    def get(self,request,*args,**kwargs):
+        query =self.request.GET.get('query')
+        profile_list =Profile.objects.filter(
 
+            Q(user__username__icontains =query)
 
-# class UserSearch (View):
-#     def get(self,request,*args,**kwargs):
-#         query =self.request.GET.get('query')
-#         profile_list =Profile.objects.filter(
-#
-#             Q(user__username__icontains =query)
-#
-#         )
-#         context ={
-#             'profile_list':profile_list,
-#         }
-#         return render (request,'search/search.html',context)
+        )
+        context ={
+            'profile_list':profile_list,
+        }
+        return render (request,'search/search.html',context)
 
 @login_required
 def UserSearch(request):
@@ -271,6 +208,8 @@ class ProfileView(View):
 
 
         followers = profile.followers.all()
+        following = Profile.objects.filter(followers__id = user.id)
+
         if len(followers) == 0:
             is_following = False
         for follower in followers:
@@ -281,12 +220,13 @@ class ProfileView(View):
                 is_following = False
 
         number_of_followers = len(followers)
-
+        number_of_following = len(following)
         context = {
             'user': user,
             'profile': profile,
             'posts': posts,
             'is_following': is_following,
             'number_of_followers': number_of_followers,
+            'number_of_following' : number_of_following,
         }
         return render(request, 'profile/user-profile.html', context)

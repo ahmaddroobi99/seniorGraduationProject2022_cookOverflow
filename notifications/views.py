@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from Friends.models import CustomNotification
+# from Friends.models import CustomNotification
 
 
 def mark_like_comment_notifications_as_read(request):

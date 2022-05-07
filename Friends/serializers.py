@@ -1,18 +1,18 @@
-from rest_framework import serializers
+# from rest_framework import serializers
 
-from Account.models import User
-from .models import CustomNotification
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        exclude = ("password",)
+# from Account.models import User
+# from .models import CustomNotification
 
 
-class NotificationSerializer(serializers.ModelSerializer):
-    actor = UserSerializer(read_only=True)
+# class UserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         exclude = ("password",)
 
-    class Meta:
-        model = CustomNotification
-        fields = "__all__"
+
+# class NotificationSerializer(serializers.ModelSerializer):
+#     actor = UserSerializer(read_only=True)
+
+#     class Meta:
+#         model = CustomNotification
+#         fields = "__all__"
