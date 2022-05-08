@@ -3,6 +3,9 @@ from django.db import models
 from Account.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.db.models.signals import post_save, post_delete
+from notifications.models import Notification
+
 
 
 class Profile(models.Model):
@@ -16,6 +19,38 @@ class Profile(models.Model):
     about = models.TextField(blank=True)
     followers = models.ManyToManyField(User, blank=True, related_name='followers')
 
+
+class Profile_profile_followers(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def user_follow(sender, instance, *args, **kwargs):
+        print()
+        print()
+        print()
+        print(sender)
+        print()
+        print()
+        print()
+        follow = instance
+        sender = follow.profile.user
+        following = follow.user
+        notify = Notification(sender=sender, user=following, notification_type=3)
+        notify.save()
+
+    def user_unfollow(sender, instance, *args, **kwargs):
+        follow = instance
+        sender = follow.profile.user
+        following = follow.user
+
+        notify = Notification.objects.filter(sender=sender, user=following, notification_type=3)
+        notify.delete()
+
+    class Meta:
+        managed = False
+        db_table = 'Profile_profile_followers'
+        unique_together = (('profile_id', 'user_id'),)
 
 
 @receiver(post_save, sender=User)

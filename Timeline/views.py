@@ -11,6 +11,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.db.models import Q
+
 
 # from Friends.models import CustomNotification, Friend   
 # from Friends.serializers import NotificationSerializer
@@ -21,7 +23,16 @@ from .models import *
 
 class PostCreateView(CreateView):
     def get(self, request, *args, **kwargs):
-        post = Post.objects.all()
+        profile = Profile.objects.get(user=request.user)
+        followers = profile.followers.all()
+        print()
+        print()
+        print()
+        print(followers)
+        print()
+        print()
+        print()
+        post = Post.objects.filter(user = request.user or user in followers)
 
         context = {
             'post' : post,
@@ -182,6 +193,37 @@ def like(request, post_id):
         #return HttpResponseRedirect(reverse('core:home', args=[post_id]))
     
     return redirect(reverse_lazy('core:home'))
+
+# @login_required
+# def follow(request, pk):
+#     user = request.user
+#     is_follower = False
+
+#     followers = Profile_profile_followers.objects.filter(user_id = request.user.id)
+#     followersList = []
+#     for follower in followers:
+#         followersList.append(follower.profile_id)
+    
+#     if pk in followersList:
+        
+
+
+
+#     if not liked:
+#         like = Likes.objects.create(user=user, post=post)
+#         #like.save()
+#         current_likes = current_likes + 1
+
+#     else:
+#         Likes.objects.filter(user=user, post=post).delete()
+#         current_likes = current_likes - 1
+
+#     post.likes = current_likes
+#     post.save()
+
+#         #return HttpResponseRedirect(reverse('core:home', args=[post_id]))
+    
+#     return redirect(reverse_lazy('core:home'))
     
 @login_required
 def favorite(request, post_id):

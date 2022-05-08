@@ -9,6 +9,7 @@ from notifications.models import Notification
 from django.db.models.signals import post_save, post_delete
 from django.utils.text import slugify
 from django.urls import reverse
+from Profile.models import Profile_profile_followers
 
 
 # adding Tages
@@ -147,5 +148,5 @@ post_save.connect(Comment.user_comment_post, sender=Comment)
 post_delete.connect(Comment.user_delete_comment_post, sender=Comment)
 
 #Follow
-post_save.connect(Follow.user_follow, sender=Follow)
-post_delete.connect(Follow.user_unfollow, sender=Follow)
+post_save.connect(Profile_profile_followers.user_follow, sender=Profile_profile_followers)
+post_delete.connect(Profile_profile_followers.user_unfollow, sender=Profile_profile_followers)

@@ -18,7 +18,7 @@ from django.contrib.auth.forms import UserCreationForm ,UserChangeForm
 # from django_serializer.paginator import Paginator
 
 from Account.models import User
-from Profile.models import Profile
+from Profile.models import Profile, Profile_profile_followers
 from Timeline.models import Post, Likes
 
 
@@ -150,8 +150,10 @@ class AddFollower(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         profile = Profile.objects.get(pk=pk)
 
-        profile.followers.add(request.user)
+        addFollow = Profile_profile_followers.objects.create(user = request.user, profile = profile)
 
+        addFollow.save()
+        
         return redirect('profile:user-timeline', pk=profile.pk)
 
 
