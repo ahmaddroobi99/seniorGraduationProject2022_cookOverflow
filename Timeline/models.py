@@ -149,4 +149,4 @@ post_delete.connect(Comment.user_delete_comment_post, sender=Comment)
 
 #Follow
 post_save.connect(Profile_profile_followers.user_follow, sender=Profile_profile_followers)
-post_delete.connect(Profile_profile_followers.user_unfollow, sender=Profile_profile_followers)
+# post_delete.connect(Profile_profile_followers.user_unfollow, sender=Profile_profile_followers)

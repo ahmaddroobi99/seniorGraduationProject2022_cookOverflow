@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render
+from Profile.models import Profile_profile_followers
 
 # from Friends.models import CustomNotification
 
@@ -28,8 +29,18 @@ def ShowNOtifications(request):
 
     template = loader.get_template('notifications.html')
 
+    followers = Profile_profile_followers.objects.filter(user_id = request.user.id)
+
+
+    followersList = []
+    for follower in followers:
+        followersList.append(follower.profile_id)
+    
+    number_of_notification = Notification.objects.filter(is_seen = False).count()
+
     context = {
         'notifications': notifications,
+        'numberOfNotification':number_of_notification, 
     }
 
     return HttpResponse(template.render(context, request))

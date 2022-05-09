@@ -23,9 +23,9 @@
         <div class="top-area">
             <ul class="setting-area">
                 <li><a href="/" title="Home" class="link" data-ripple=""><i class="ti-home"></i></a></li>
-                <li><a href="{% url 'Timeline:tags_preview' %}" class="link" title="Tags" data-ripple="">Tags</a></li>
-                <li><a href="{% url 'notifications:show-notifications' %}" class="link" title="Notifications" data-ripple="">Notifications</a></li>
-                <li><a href="#" class="link">Messenger</a></li>
+                <li><a href="{% url 'Timeline:tags_preview' %}" class="link" title="Tags" data-ripple=""><i class="ti-tag"></i></a></li>
+                <li><a href="{% url 'notifications:show-notifications' %}" class="link" title="Notifications" data-ripple=""><i class="ti-bell"></i></i><span id="total-like-comment-notifications">{{ numberOfNotification }}</span></a></li>
+                <li><a href="#" class="link"><i class="ti-comment"></i><span id="total-like-comment-notifications">0</span></a></li>
 
                 {% comment %} <li><a href="{% url 'communications:all-messages' %}" class="link">Messenger</a></li> {% endcomment %}
                  {% comment %} <li>
@@ -38,7 +38,7 @@
             </div>
 
           </form>  </li> {% endcomment %}
-                <li>
+                {% comment %} <li>
                     <a href="#" title="Notification" data-ripple="">
                         <i class="ti-user"></i><span id="total-friend-notifications"></span>
                     </a>
@@ -56,7 +56,7 @@
                         <a href="#" title="" class="more-mesg">view more</a>
                         <a href="#" title="" class="more-mesg" data-url="{% url 'notifications:show-notifications' %}" id="show-notifications">mark all as read</a>
                     </div>
-                </li>
+                </li> {% endcomment %}
             </ul>
             <div class="user-img">
                 {% if request.user.profile.profile_image %}                        
@@ -64,7 +64,8 @@
                 {% else %}
                     <img src="{% static 'images/male.jpg' %}" alt="">
                 {% endif %}
-                <span class="status f-online"></span>
+                <span style="position:absolute; right: 50px;" class="status f-online"></span>
+                <span>{{request.user.username}}</span>
                 <div class="user-setting">
                     <a href="#" title=""><span class="status f-online"></span>online</a>
                     <a href="#" title=""><span class="status f-away"></span>away</a>
