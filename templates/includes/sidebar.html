@@ -15,14 +15,14 @@
                     <i class="ti-tag"></i>
                     <a href="tags.html" title="">Tags</a>
                 </li>
-                 <li>
-                    <i class="ti-user"></i>
-                    {% comment %} <a href="{% url 'Friends:find-friends' %}" title="">Find Friends</a> {% endcomment %}
-                </li> 
                 <li>
                     <i class="ti-bell"></i>
                     <a href="{% url 'notifications:show-notifications' %}"  class ="link" title="">Notifications</a>
                 </li>
+                 <li>
+                    <i class="ti-user"></i>
+                    <a href="" title="">Find Friends</a>
+                </li> 
                 <li>
                     <i class="ti-power-off"></i>
                     <a href="{% url 'Account:Logout' %}" title="">Logout</a>

@@ -130,6 +130,7 @@ def preview_post(request, pk):
 
 def tags_preview(request, title="`"):
     tags = Tag.objects.all().values_list('title', flat=True).distinct()[:10]
+    number_of_notification = Notification.objects.filter(is_seen = False).count()
 
     if title != "`":    
         posts = Post.objects.filter(tags__title = title)
@@ -138,6 +139,7 @@ def tags_preview(request, title="`"):
     context = {
         "posts": posts,
         "tags": tags,
+        'numberOfNotification':number_of_notification, 
     }
 
     return render(request, "tags.html", context)
