@@ -101,7 +101,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'cookoverflow',
         'USER': 'postgres',
-        'PASSWORD': '922000',
+        'PASSWORD': '404729782Ahmad',
         'HOST': 'localhost',
         'PORT': '5432',
     }
