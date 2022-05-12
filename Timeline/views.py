@@ -32,15 +32,22 @@ class PostCreateView(CreateView):
         print()
         print()
         print()
+        followersList = []
+        for follower in followers:
+            followersList.append(follower.profile_id)
+        
+        number_of_notification = Notification.objects.filter(is_seen = False).count()
+    
         post = Post.objects.filter(user = request.user or user in followers)
 
         context = {
             'post' : post,
+            'numberOfNotification':number_of_notification, 
+
         }
         return render(request, reverse_lazy('core:home'), context)
 
     def post(self, request, *args, **kwargs):
-        post = Post.objects.all()
         form = PostCreateForm(request.POST)
         image_files = request.FILES.getlist('image')
         video_files = request.FILES.getlist('video')
@@ -73,11 +80,7 @@ class PostCreateView(CreateView):
                 new_post.video.add(vid)
 
             new_post.save()
-        print(form.cleaned_data)
-        context = {
-            'post' : post,
-        }
-        return redirect(reverse_lazy('core:home'), context)
+        return redirect(reverse_lazy('core:home'))
 
 def deletePost(request, pk):
     post = get_object_or_404(Post, id=pk)
@@ -112,14 +115,22 @@ def deletePost(request, pk):
 
 def preview_post(request, pk):
     post = get_object_or_404(Post, id=pk)
+    followers = Profile_profile_followers.objects.filter(user_id = request.user.id)
+    followersList = []
+    for follower in followers:
+        followersList.append(follower.profile_id)
     
+    number_of_notification = Notification.objects.filter(is_seen = False).count()
+
     context = {
         'post':post,
+        'numberOfNotification':number_of_notification, 
     }
     return render(request, "post_edit.html", context)
 
 def tags_preview(request, title="`"):
     tags = Tag.objects.all().values_list('title', flat=True).distinct()[:10]
+    number_of_notification = Notification.objects.filter(is_seen = False).count()
 
     if title != "`":    
         posts = Post.objects.filter(tags__title = title)
@@ -128,6 +139,7 @@ def tags_preview(request, title="`"):
     context = {
         "posts": posts,
         "tags": tags,
+        'numberOfNotification':number_of_notification, 
     }
 
     return render(request, "tags.html", context)

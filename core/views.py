@@ -5,6 +5,7 @@ from django.db.models import Q
 # from Friends.models import Friend
 from Timeline.models import Post
 from Profile.models import Profile, Profile_profile_followers
+from notifications.models import Notification
 
 
 def home(request):
@@ -23,16 +24,13 @@ def home(request):
     for follower in followers:
         followersList.append(follower.profile_id)
     followersList.append(request.user.id)
-    print()
-    print()
-    print()
-    print(followersList)
-    print()
-    print()
-    print()
+    
     post = Post.objects.filter(user__id__in = followersList)
+
+    number_of_notification = Notification.objects.filter(is_seen = False).count()
     context = {
             'posts' : post,
+            'numberOfNotification':number_of_notification, 
         }
     # return render(request, 'home.html', {'posts': posts, 'friends': friends})
     

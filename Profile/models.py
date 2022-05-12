@@ -26,26 +26,19 @@ class Profile_profile_followers(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def user_follow(sender, instance, *args, **kwargs):
-        print()
-        print()
-        print()
-        print(sender)
-        print()
-        print()
-        print()
         follow = instance
         sender = follow.profile.user
         following = follow.user
         notify = Notification(sender=sender, user=following, notification_type=3)
         notify.save()
 
-    def user_unfollow(sender, instance, *args, **kwargs):
-        follow = instance
-        sender = follow.profile.user
-        following = follow.user
+    # def user_unfollow(sender, instance, *args, **kwargs):
+    #     follow = instance
+    #     sender = follow.profile.user
+    #     following = follow.user
 
-        notify = Notification.objects.filter(sender=sender, user=following, notification_type=3)
-        notify.delete()
+    #     notify = Notification.objects.filter(sender=sender, user=following, notification_type=3)
+    #     notify.delete()
 
     class Meta:
         managed = False
