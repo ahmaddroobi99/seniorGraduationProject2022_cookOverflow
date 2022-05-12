@@ -16,7 +16,7 @@ from django.db.models import Q
 
 # from Friends.models import CustomNotification, Friend   
 # from Friends.serializers import NotificationSerializer
-from Profile.models import Profile
+from Profile.models import Profile, Profile_profile_followers
 from .forms import PostCreateForm
 from .models import *
 
@@ -207,6 +207,40 @@ def like(request, post_id):
     return redirect(reverse_lazy('core:home'))
 
 # @login_required
+def findFriends(request):
+    
+    template = loader.get_template('find-friends.html')  
+    usersList = []
+    number_of_notification = Notification.objects.filter(is_seen = False).count()
+    followers = []
+    followersList = []
+
+    if request.method == "POST":     
+        friendToSearch = request.POST.get("friendToSearch")
+
+        users = Profile.objects.filter(user__username__icontains = friendToSearch)
+
+        for user in users:
+            if user.user.id != request.user.id:
+                usersList.append(user)
+        followers = Profile_profile_followers.objects.filter(user_id = request.user.id)
+        for follower in followers:
+            followersList.append(follower.profile_id)
+        
+
+        print()
+        print()
+        print(followersList)
+        print()
+        print()
+
+    context = {
+        'usersList': usersList,
+        'numberOfNotification':number_of_notification, 
+        'followers': followersList,
+    }
+    return HttpResponse(template.render(context, request))
+
 # def follow(request, pk):
 #     user = request.user
 #     is_follower = False
@@ -217,26 +251,8 @@ def like(request, post_id):
 #         followersList.append(follower.profile_id)
     
 #     if pk in followersList:
-        
 
 
-
-#     if not liked:
-#         like = Likes.objects.create(user=user, post=post)
-#         #like.save()
-#         current_likes = current_likes + 1
-
-#     else:
-#         Likes.objects.filter(user=user, post=post).delete()
-#         current_likes = current_likes - 1
-
-#     post.likes = current_likes
-#     post.save()
-
-#         #return HttpResponseRedirect(reverse('core:home', args=[post_id]))
-    
-#     return redirect(reverse_lazy('core:home'))
-    
 @login_required
 def favorite(request, post_id):
 	user = request.user

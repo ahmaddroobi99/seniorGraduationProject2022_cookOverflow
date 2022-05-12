@@ -46,10 +46,31 @@ def ShowNOtifications(request):
     return HttpResponse(template.render(context, request))
 
 
-def DeleteNotification(request, noti_id):
+def DeleteNotification(request, id):
     user = request.user
-    Notification.objects.filter(id=noti_id, user=user).delete()
-    return redirect('show-notifications')
+    Notification.objects.filter(id=id, user=user).delete()
+
+    user = request.user
+    notifications = Notification.objects.filter(user=user).order_by('-date')
+    Notification.objects.filter(user=user, is_seen=False).update(is_seen=True)
+
+    template = loader.get_template('notifications.html')
+
+    followers = Profile_profile_followers.objects.filter(user_id = request.user.id)
+
+
+    followersList = []
+    for follower in followers:
+        followersList.append(follower.profile_id)
+    
+    number_of_notification = Notification.objects.filter(is_seen = False).count()
+
+    context = {
+        'notifications': notifications,
+        'numberOfNotification':number_of_notification, 
+    }
+
+    return HttpResponse(template.render(context, request))
 
 
 def CountNotifications(request):

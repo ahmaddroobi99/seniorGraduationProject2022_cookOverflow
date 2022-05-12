@@ -20,6 +20,7 @@ from django.contrib.auth.forms import UserCreationForm ,UserChangeForm
 from Account.models import User
 from Profile.models import Profile, Profile_profile_followers
 from Timeline.models import Post, Likes
+from notifications.models import Notification
 
 
 class TimelineView(DetailView):
@@ -223,6 +224,8 @@ class ProfileView(View):
 
         number_of_followers = len(followers)
         number_of_following = len(following)
+        number_of_notification = Notification.objects.filter(is_seen = False).count()
+
         context = {
             'user': user,
             'profile': profile,
@@ -230,5 +233,6 @@ class ProfileView(View):
             'is_following': is_following,
             'number_of_followers': number_of_followers,
             'number_of_following' : number_of_following,
+            'numberOfNotification':number_of_notification, 
         }
         return render(request, 'profile/user-profile.html', context)
