@@ -52,8 +52,7 @@
     </div>
 
     <div class="column">
-
-        <div style="overflow-y: scroll; height: 500px">
+        <div id="scroll" style="overflow-y: scroll; height: 500px">
 
             {% for direct in directs %}
             <div class="box">
@@ -76,6 +75,8 @@
 
         </div>
 
+        <script> var element = document.getElementById("scroll");
+          element.scrollTop = element.scrollHeight;</script>
 
         <form role="form" method="POST" action="{% url 'communications:send_direct' %}">
             {% csrf_token %}
