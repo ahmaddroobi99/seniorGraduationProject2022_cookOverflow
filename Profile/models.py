@@ -27,8 +27,8 @@ class Profile_profile_followers(models.Model):
 
     def user_follow(sender, instance, *args, **kwargs):
         follow = instance
-        sender = follow.profile.user
-        following = follow.user
+        sender = follow.user
+        following = follow.profile.user
         notify = Notification(sender=sender, user=following, notification_type=3)
         notify.save()
 

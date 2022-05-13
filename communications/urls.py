@@ -1,9 +1,14 @@
-from django.urls import path
-from .views import *
+# from django.urls import path
+
+from .views import Inbox, UserSearch, Directs, NewConversation, SendDirect
+from django.urls import path, include
 
 app_name = "communications"
 
 urlpatterns = [
-    path('', all_messages, name="all-messages"),
-    path('Chat/', messages_with_one_friend, name="messages-with-one-friend"),
+   	path('', Inbox, name='inbox'),
+   	path('directs/<username>', Directs, name='directs'),
+   	path('new/', UserSearch, name='usersearch'),
+   	path('new/<username>', NewConversation, name='newconversation'),
+   	path('send/', SendDirect, name='send_direct'),
 ]

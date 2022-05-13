@@ -28,17 +28,17 @@
                                                 <div class="description">
                                                     <div>
                                                         {%for tag in post.tags.all%}
-                                                        <label>#{{ tag }}</label> {% endfor %}
+                                                        <a style="cursor: pointer;" href="{% url 'Timeline:tags_preview' title=tag %}"><label style="padding: 5px; cursor: pointer; background-color: blue; border-radius: 5px;  color: white;">#{{ tag }}</label></a> {% endfor%}
                                                     </div>
                                                     <p>{{ post.body }}</p>
                                                     <div style="display:flex; flex-flow: column;  align-items: center;">
                                                     {% if post.image.count > 0 %}
                                                         {% for image in post.image.all %}
-                                                        <img class="mySlides" style="max-width: 600px; margin-bottom: 5px; min-width: 400px;" src="{{ image.image.url }}" class="post-image" /> {% endfor %}
+                                                        <img class="mySlides" style="max-width: 600px; max-height: 600px; margin-bottom: 5px; min-width: 400px;" src="{{ image.image.url }}" class="post-image" /> {% endfor %}
                                                     {% endif %} {% if post.video.count > 0 %}
-                                                    <div class="col-md-4 col-xs-12">
+                                                    <div class="display:flex; flex-flow: column;  align-items: center;">
                                                         {% for video in post.video.all %}
-                                                        <video style="max-width: 800px;" style="max-width: 600px; min-width: 400px;" class="mySlides" src="{{ video.video.url }}" controls class="post-image" preload="metadata"></video> {% endfor %} {% endif %}
+                                                        <video style="max-width: 500px; max-height: 500px; min-width: 300px;" class="mySlides" src="{{ video.video.url }}" controls class="post-image" preload="metadata"></video> {% endfor %} {% endif %}
                                                     </div>
                                                     <div>
                                                     <button class="w3-button w3-display-left" onclick="return plusDivs(-1)">&#10094;</button>
