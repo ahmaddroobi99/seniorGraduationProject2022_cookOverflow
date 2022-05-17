@@ -55,6 +55,10 @@ class PostCreateView(CreateView):
 
         tags = tags_text.split("#")
 
+
+        while("" in tags) :
+            tags.remove("")
+
         if form.is_valid():
             new_post = form.save(commit=False)
             new_post.user = request.user

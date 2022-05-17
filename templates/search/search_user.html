@@ -24,14 +24,14 @@
 </div>
 
 <div class="column is-one-quarter">
-
 {% for user in users %}
+<h1>{{user}}</h1>
 <div class="box">
   <article class="media">
     <div class="media-left">
       <figure class="image is-64x64">
-          {% if user.profile.picture %}
-            <img src="{{ user.profile.picture.url }}" alt="Placeholder image">
+          {% if user.picture %}
+            <img src="{{ user.picture.url }}" alt="Placeholder image">
           {% else %}
             <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
           {% endif %}

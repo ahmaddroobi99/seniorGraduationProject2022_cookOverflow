@@ -167,41 +167,41 @@ class RemoveFollower(LoginRequiredMixin, View):
 
         return redirect('profile:user-timeline', pk=profile.pk)
 
-class UserSearch (View):
-    def get(self,request,*args,**kwargs):
-        query =self.request.GET.get('query')
-        profile_list =Profile.objects.filter(
+# class UserSearch (View):
+#     def get(self,request,*args,**kwargs):
+#         query =self.request.GET.get('query')
+#         profile_list =Profile.objects.filter(
 
-            Q(user__username__icontains =query)
+#             Q(user__username__icontains =query)
 
-        )
-        context ={
-            'profile_list':profile_list,
-        }
-        return render (request,'search/search.html',context)
+#         )
+#         context ={
+#             'profile_list':profile_list,
+#         }
+#         return render (request,'search/search.html',context)
 
-@login_required
-def UserSearch(request):
-    query = request.GET.get("q")
-    context = {}
+# @login_required
+# def UserSearch(request):
+#     query = request.GET.get("q")
+#     context = {}
 
-    if query:
-        users = User.objects.filter(Q(username__icontains=query))
+#     if query:
+#         users = User.objects.filter(Q(username__icontains=query))
 
-        # Pagination
-        paginator = Paginator(users, 6)
-        page_number = request.GET.get('page')
-        users_paginator = paginator.get_page(page_number)
+#         # Pagination
+#         paginator = Paginator(users, 6)
+#         page_number = request.GET.get('page')
+#         users_paginator = paginator.get_page(page_number)
 
-        context = {
-            'users': users_paginator,
-        }
+#         context = {
+#             'users': users_paginator,
+#         }
 
-    # template = loader.get_template('search/search_user.html')
-    template = get_template("search/search_user.html")
+#     # template = loader.get_template('search/search_user.html')
+#     template = get_template("search/search_user.html")
 
 
-    return HttpResponse(template.render(context, request))
+    # return HttpResponse(template.render(context, request))
 
 class ProfileView(View):
     def get(self, request, pk, *args, **kwargs):
@@ -234,5 +234,7 @@ class ProfileView(View):
             'number_of_followers': number_of_followers,
             'number_of_following' : number_of_following,
             'numberOfNotification':number_of_notification, 
+            'followers' : followers,
+            'following' : following,
         }
         return render(request, 'profile/user-profile.html', context)
