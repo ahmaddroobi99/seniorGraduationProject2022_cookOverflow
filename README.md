@@ -87,8 +87,33 @@ Instructions on how to use them in your own application are linked below.
 | Medium | [plugins/medium/README.md][PlMe] |
 | Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
 
-
+##Activity Diagram
 ![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/Activity%20Diagram.jpeg)
+##Class Daigram
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/Class%20Daigram.jpeg)
+##Flow chart
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/Flow%20chart%201.png)
+##Sequence diagram
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/Sequence%20diagram.jpeg)
+##state Chart Diagram 
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/State%20Chart%20Diagram.jpeg)
+##Use_Case_Diagram
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/Use_Case_Diagram.jpeg)
+##UML
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/UML.png)
+##workFlow
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/Workflow.png)
+##Data Flow Of Search Engine Desgin 
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/RecipeDataFlowChart.png)
+![alt text]()
+![alt text]()
+![alt text]()
+![alt text]()
+![alt text]()
+![alt text]()
+![alt text]()
+![alt text]()
+![alt text]()
 
 
 ## License
