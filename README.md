@@ -93,28 +93,50 @@ Instructions on how to use them in your own application are linked below.
 ![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/Class%20Daigram.jpeg)
 ##Flow chart
 ![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/Flow%20chart%201.png)
-##Sequence diagram
+## Sequence diagram
 ![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/Sequence%20diagram.jpeg)
 ##state Chart Diagram 
 ![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/State%20Chart%20Diagram.jpeg)
-##Use_Case_Diagram
+## Use_Case_Diagram
 ![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/Use_Case_Diagram.jpeg)
-##UML
+## UML
 ![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/UML.png)
-##workFlow
+## workFlow
 ![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/Workflow.png)
-##Data Flow Of Search Engine Desgin 
+## Data Flow Of Search Engine Desgin 
 ![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/RecipeDataFlowChart.png)
-![alt text]()
-![alt text]()
-![alt text]()
-![alt text]()
-![alt text]()
-![alt text]()
-![alt text]()
-![alt text]()
-![alt text]()
+## Front End Of CookOverflow
+## Direct Mess
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/DirectMessages.png)
+## Home PAge
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/HomePage.png)
+## login 
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/LogIn.png)
+## notifications 
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/Notification.png)
+##  Registrations 
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/Registration.png)
+## Logo OF Cookoverflow
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/Screenshot%202022-05-19%20194922.png)
+## Tags
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/Tags.png)
+## Verification Email
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/VerrifivationEmail.png)
+## Edit Profile 
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/editProfile1.png)
 
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/updateProfile2.png)
+
+## Find Friends 
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/findFriends.png)
+## Forget Pass
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/forgetPassword.png)
+## Post  Preview 
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/postPreview.png)
+
+## Profile 
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/userProfile1.png)
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/Screen-FronEnd/userProile2.png)
 
 ## License
 
