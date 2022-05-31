@@ -88,6 +88,7 @@ Instructions on how to use them in your own application are linked below.
 | Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
 
 
+![alt text](https://github.com/ahmaddroobi99/seniorGraduationProject2022_cookOverflow/blob/master/Documentation/UMLs/Activity%20Diagram.jpeg)
 
 
 ## License
