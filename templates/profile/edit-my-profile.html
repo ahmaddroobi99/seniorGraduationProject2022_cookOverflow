@@ -8,31 +8,39 @@
                     <div class="row" id="page-contents">
                         <div class="col-lg-3">
                             <aside class="sidebar static">
-                                <div class="widget stick-widget">
-                                    <h4 class="widget-title">Edit info</h4>
+                                <div class="widget">
+                                    <h4 class="widget-title">Shortcuts</h4>
                                     <ul class="naves">
                                         <li>
-                                            <i class="ti-info-alt"></i>
-                                            <a href="edit-profile-basic.html" title="">Basic info</a>
+                                            <i class="ti-clipboard"></i>
+                                            <a href="{% url 'core:home' %}" title="">News feed</a>
                                         </li>
-                                        <li>
+                                        {% comment %} <li>
                                             <i class="ti-mouse-alt"></i>
-                                            <a href="edit-work-eductation.html" title="">Education & Work</a>
+                                            <a href="" title="">Inbox</a>
+                                        </li> {% endcomment %}
+                                        <li>
+                                            <i class="ti-tag"></i>
+                                            <a href="{% url 'Timeline:tags_preview' %}" title="">Tags</a>
                                         </li>
                                         <li>
-                                            <i class="ti-heart"></i>
-                                            <a href="edit-interest.html" title="">My interests</a>
+                                            <i class="ti-bell"></i>
+                                            <a href="{% url 'notifications:show-notifications' %}"  class ="link" title="">Notifications</a>
                                         </li>
                                         <li>
-                                            <i class="ti-settings"></i>
-                                            <a href="edit-account-setting.html" title="">account setting</a>
-                                        </li>
+                                            <i class="ti-user"></i>
+                                            <a href="{% url 'Timeline:find-friend' %}" title="">Find Friends</a>
+                                        </li> 
                                         <li>
-                                            <i class="ti-lock"></i>
-                                            <a href="edit-password.html" title="">change password</a>
+                                            <i class="ti-search"></i>
+                                            <a href="{% url 'Timeline:searchEngine' %}" title="">Search For Recipe</a>
+                                        </li> 
+                                        <li>
+                                            <i class="ti-power-off"></i>
+                                            <a href="{% url 'Account:Logout' %}" title="">Logout</a>
                                         </li>
                                     </ul>
-                                </div>
+                                </div><!-- Shortcuts -->
                             </aside>
                         </div>
                         <div class="col-lg-6">

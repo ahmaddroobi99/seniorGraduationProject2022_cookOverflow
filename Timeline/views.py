@@ -148,6 +148,62 @@ def tags_preview(request, title="`"):
 
     return render(request, "tags.html", context)
 
+def searchEngine(request):
+    number_of_notification = Notification.objects.filter(is_seen = False).count()
+    postList = []
+    
+    if request.method == "POST":
+        posts = Post.objects.all()
+
+        
+
+        ingrediants_text = request.POST['text']
+
+        ingrediants = ingrediants_text.split("-")
+
+
+        while("" in ingrediants) :
+            ingrediants.remove("")
+
+        for post in posts:
+            for ingrediant in ingrediants:
+                if ingrediant in post.body:
+                    postList.append(post)
+                    break
+    
+    print()
+    print()
+    print(postList)
+    print()
+    print()
+
+    
+    context = {
+        "posts": postList,
+        'numberOfNotification':number_of_notification, 
+    }
+
+    return render(request, "searchEngine.html", context)
+
+def searchTags(request):
+    number_of_notification = Notification.objects.filter(is_seen = False).count()
+    tags = Tag.objects.all().distinct()[:10]
+    if request.method == "POST":
+        
+        # tags = Tag.objects.all().filter()
+
+        tag_text = request.POST['text']
+
+        posts = Post.objects.filter(tags__title=tag_text).order_by('-created_at')
+    
+    
+    context = {
+        "posts": posts,
+        "tags": tags,
+        'numberOfNotification':number_of_notification, 
+    }
+
+    return render(request, "tags.html", context)
 
 def create_comment(request, post_id=None):
     if request.method == "POST":

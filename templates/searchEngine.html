@@ -2,21 +2,15 @@
 
 <div style="display: flex; flex-direction: column; justify-items: center; align-items: center; ">
     <div class="top-search" style="margin-top: 50px;">
-        <form method="post" action="{% url 'Timeline:searchTags' %}" enctype="multipart/form-data">
+        <form method="post" action="{% url 'Timeline:searchEngine' %}" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="text" name='text' placeholder="Search Tags">
+            <input type="text" name="text" placeholder="Search for Recipe">
             <button data-ripple><i class="ti-search"></i></button>
         </form>
-    </div>
 
-    <div style="display: flex; flex-direction: column; justify-items: center; align-items: center;">
-        <label for="trends"><h3>Trending:</h3></label>
-        <div style=" display: flex; flex-direction: row; justify-items: center; align-items: center;">
-            {%for tag in tags.all%}
-                <a style="margin-left: 10px; cursor: pointer;" href="{% url 'Timeline:tags_preview' title=tag %}"><label style="padding: 5px; cursor: pointer; background-color: blue; border-radius: 5px;  color: white;">#{{ tag }}</label></a> 
-            {% endfor%}
-        </div>
     </div>
+    <h3 style="width: fit;">Search Engine:</h3>
+</div>
 
     <section>
         <div class="gap gray-bg">

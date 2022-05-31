@@ -51,10 +51,10 @@
                             </li>
                             <li>
                                 <a id="timeline" class="active"  href="#" title="" data-ripple="" onclick="showPosts()">time line</a>
-                                <a id="media" class=""  href="#" title="" data-ripple="" onclick="showMedia()">Media</a>
+                                {% comment %} <a id="media" class=""  href="#" title="" data-ripple="" onclick="showMedia()">Media</a> {% endcomment %}
                                 <a id="followers" class=""  href="#" title="" data-ripple="" onclick="showFollowers()">Followers</a>
                                 <a id="following" class=""  href="#" title="" data-ripple=""  onclick="showFollowing()">Following</a>
-                                <a id="about" class=""   href="#" title="" data-ripple="" onclick="showAbout()">about</a>
+                                {% comment %} <a id="about" class=""   href="#" title="" data-ripple="" onclick="showAbout()">about</a> {% endcomment %}
 
                             </li>
                             <li style="position: absolute; right:0; width: fit-content; height: fit-content;">
@@ -343,8 +343,8 @@
                         </div>
                     </div>
             </section>
-            <section id="PreviewMedia">
-            </section>
+            {% comment %} <section id="PreviewMedia">
+            </section> {% endcomment %}
             <section id="PreviewFollowers">
                 <div class="gap gray-bg">
                     <div class="container-fluid">
@@ -368,13 +368,27 @@
                                                     </figure>
                                                     <div class="media-content">
                                                         <div class="content">
-                                                            <strong>{{ user.profile.user.first_name }} {{ user.profile.user.last_name }}</strong> <small>@{{ user.profile.user.username }}</small> 
+                                                            <strong>{{ user.profile.user.first_name }} {{ user.profile.user.last_name }}</strong> <small>@<a href="{% url 'profile:user-timeline' user.profile.user.pk %}" title="">{{ user.profile.user.username }}</a></small> 
                                                             <br>
-                                                            {% if user.profile.user != request.user %}
+                                                            {% comment %} {% if user.profile.user != request.user %}
                                                             <form  method="POST" action="{% url 'profile:remove-follower' user.profile.user.pk %}">
                                                                 {% csrf_token %}
                                                                 <button class="btn btn-outline-danger"  style='border-radius:10px;' type=submit>UnFollow</button>
                                                             </form>
+                                                            {%endif%} {% endcomment %}
+                                                            {% if user.profile.user != request.user %}
+                                                            {% if user.profile in following %}
+                                                                <form  method="POST" action="{% url 'profile:remove-follower' user.profile.user.pk %}">
+                                                                    {% csrf_token %}
+                                                                    <button class="btn btn-outline-danger"  style='border-radius:10px;' type=submit>UnFollow</button>
+                                                                </form>
+                                                            {% else %}
+                                                                <form method="POST" action="{% url 'profile:add-follower' user.profile.user.pk %}">
+                                                                    {% csrf_token %}
+                                                                    <button class="btn btn-outline-success"  style='border-radius:10px;' type=submit>Follow</button>
+                                                                </form>
+                                                            
+                                                            {% endif %}
                                                             {%endif%}
                                                         </div>
                                                     </div>
@@ -414,7 +428,7 @@
                                                     </figure>
                                                     <div class="media-content">
                                                         <div class="content">
-                                                            <strong>{{ user.user.first_name }} {{ user.user.last_name }}</strong> <small>@{{ user.user.username }}</small> 
+                                                            <strong>{{ user.user.first_name }} {{ user.user.last_name }}</strong> <small>@<a href="{% url 'profile:user-timeline' user.user.pk %}" title="">{{ user.user.username }}</a></small> 
                                                             <br>
                                                             {% if user.user != request.user %}
                                                             {% if user.user in followers %}
@@ -445,9 +459,9 @@
                         </div>
                     </div>
             </section>
-            <section id="PreviewAbout">
+            {% comment %} <section id="PreviewAbout">
 
-            </section>
+            </section> {% endcomment %}
 
             <script>
                 let PreviewPosts = document.getElementById("PreviewPosts");
@@ -465,36 +479,25 @@
                 PreviewPosts.style.display = "block";
                     timeline.className="active";
 
-                    PreviewMedia.style.display = "none";
-                    media.className = "";
-
                     PreviewFollowers.style.display = "none";
                     followers.className = "";
 
                     PreviewFollowing.style.display = "none";
                     following.className = "";
-
-                    PreviewAbout.style.display = "none";
-                    about.className = "";
 
                 function showPosts() {
                     PreviewPosts.style.display = "block";
                     timeline.className="active";
 
-                    PreviewMedia.style.display = "none";
-                    media.className = "";
-
                     PreviewFollowers.style.display = "none";
                     followers.className = "";
 
                     PreviewFollowing.style.display = "none";
                     following.className = "";
 
-                    PreviewAbout.style.display = "none";
-                    about.className = "";
 
                 }
-
+{% comment %} 
                 function showMedia() {
                     PreviewPosts.style.display = "none";
                     timeline.className = "";
@@ -511,14 +514,12 @@
                     PreviewAbout.style.display = "none";
                     about.className = "";
 
-                }
+                } {% endcomment %}
 
                 function showFollowers() {
                     PreviewPosts.style.display = "none";
                     timeline.className = "";
 
-                    PreviewMedia.style.display = "none";
-                    media.className = "";
 
                     PreviewFollowers.style.display = "block";
                     followers.className="active";
@@ -526,17 +527,12 @@
                     PreviewFollowing.style.display = "none";
                     following.className = "";
 
-                    PreviewAbout.style.display = "none";
-                    about.className = "";
-
                 }
 
                 function showFollowing() {
                     PreviewPosts.style.display = "none";
                     timeline.className = "";
 
-                    PreviewMedia.style.display = "none";
-                    media.className = "";
 
                     PreviewFollowers.style.display = "none";
                     followers.className="";
@@ -544,12 +540,10 @@
                     PreviewFollowing.style.display = "block";
                     following.className = "active";
 
-                    PreviewAbout.style.display = "none";
-                    about.className = "";
 
                 }
 
-                function showAbout() {
+                {% comment %} function showAbout() {
                     PreviewPosts.style.display = "none";
                     timeline.className = "";
 
@@ -565,7 +559,7 @@
                     PreviewAbout.style.display = "block";
                     about.className="active";
 
-                }
+                } {% endcomment %}
             </script>
 
 {% endblock %}
