@@ -53,8 +53,7 @@ Text Processing(Spacy) and NLP: Tokenizing Using Spacy, d TF-IDF Modeling.
 Unsupervised Learning, NLP, RNN’s(Recurrent Neural Network)
 - [jQuery] - duh
 
-And of course cookOverflow itself is open source with a [public repository][dill]
- on GitHub.
+
 
 ## Installation
 
