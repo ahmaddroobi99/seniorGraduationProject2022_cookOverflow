@@ -21,7 +21,7 @@ from django.urls import path, include
 from Account.views import follow
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin', admin.site.urls),
     path('', include('Account.urls')),
 
     path('', include('core.urls')),

@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from django.urls import path, include
+from .models import Message
+
+app_name = "communications"
+
+admin.site.register(Message)
