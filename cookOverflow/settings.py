@@ -99,9 +99,9 @@ WSGI_APPLICATION = 'cookOverflow.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cookoverflow',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '922000',
+        'PASSWORD': '404729782',
         'HOST': 'localhost',
         'PORT': '5432',
     }
